@@ -9,7 +9,7 @@ public interface IEntityDbService<TEntity>
 
     Task<TEntity?> GetByIdAsync(int id);
 
-    IAsyncEnumerable<TEntity?> GetAllAsync();
+    Task<List<TEntity>> GetAllAsync();
 
     TEntity Update(TEntity entity);
 
