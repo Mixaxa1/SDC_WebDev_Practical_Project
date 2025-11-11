@@ -4,10 +4,10 @@ using WebApi.Domain;
 
 namespace WebApi.Database.EntityServices;
 
-public class EntityDbService<TEntity>(TodoListDbContext dbContext) : IEntityDbService<TEntity>
+public class EntityDbService<TEntity>(TodoListDBContext dbContext) : IEntityDbService<TEntity>
     where TEntity : Entity
 {
-    protected TodoListDbContext dbContext = dbContext;
+    protected TodoListDBContext dbContext = dbContext;
     protected DbSet<TEntity> dbSet = dbContext.Set<TEntity>();
 
     public async Task CreateAsync(TEntity entity)

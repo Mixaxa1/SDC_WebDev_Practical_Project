@@ -1,8 +1,8 @@
 using WebApi.Database.EntityServices.Interfaces;
-using WebApi.Domain;
+using WebApi.Domain.TodoList;
 
 namespace WebApi.Database.EntityServices;
 
-public class TodoListDbService(TodoListDbContext dbContext) : EntityDbService<TodoListEntity>(dbContext), ITodoListDbService
+public class TodoListDbService(TodoListDBContext dbContext) : EntityDbService<TodoListEntity>(dbContext), ITodoListDbService
 {
 }
