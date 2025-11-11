@@ -246,7 +246,7 @@ dotnet_diagnostic.SA1001.severity = warning   # CommasMustBeSpacedCorrectly
 dotnet_diagnostic.SA1002.severity = warning   # SemicolonsMustBeSpacedCorrectly
 dotnet_diagnostic.SA1003.severity = warning   # SymbolsMustBeSpacedCorrectly
 dotnet_diagnostic.SA1008.severity = warning   # OpeningParenthesisMustBeSpacedCorrectly
-dotnet_diagnostic.SA1009.severity = warning   # ClosingParenthesisMustBeSpacedCorrectly
+dotnet_diagnostic.SA1009.severity = none      # ClosingParenthesisMustBeSpacedCorrectly
 dotnet_diagnostic.SA1010.severity = warning   # OpeningSquareBracketsMustBeSpacedCorrectly
 dotnet_diagnostic.SA1011.severity = warning   # ClosingSquareBracketsMustBeSpacedCorrectly
 dotnet_diagnostic.SA1012.severity = warning   # OpeningBracesMustBeSpacedCorrectly
@@ -273,7 +273,8 @@ dotnet_diagnostic.SA1110.severity = warning   # OpeningParenthesisMustBeOnDeclar
 dotnet_diagnostic.SA1121.severity = error     # UseBuiltInTypeAlias
 dotnet_diagnostic.SA1133.severity = none      # DoNotCombineAttributes
 # Ordering rules
-dotnet_diagnostic.SA1200.severity = error     # UsingDirectivesMustBePlacedCorrectly
+dotnet_diagnostic.SA1200.severity = none      # UsingDirectivesMustBePlacedCorrectly
+dotnet_diagnostic.SA1206.severity = none
 # Maintainability rules
 dotnet_diagnostic.SA1400.severity = error     # AccessModifierMustBeDeclared
 # Layout rules
