@@ -17,12 +17,12 @@ public class EntityDbService<TEntity>(TodoListDbContext dbContext) : IEntityDbSe
 
     public async Task<TEntity?> GetByIdAsync(int id)
     {
-        return await this.dbSet.FirstAsync(x => x.Id == id);
+        return await this.dbSet.FirstOrDefaultAsync(x => x.Id == id);
     }
 
-    public IAsyncEnumerable<TEntity?> GetAllAsync()
+    public async Task<List<TEntity>> GetAllAsync()
     {
-        return this.dbSet.AsAsyncEnumerable();
+        return await this.dbSet.ToListAsync();
     }
 
     public TEntity Update(TEntity entity)
