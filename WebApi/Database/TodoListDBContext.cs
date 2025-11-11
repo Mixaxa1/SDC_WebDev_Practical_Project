@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using WebApi.Domain.TodoList;
+using WebApi.Domain;
 
 namespace WebApi.Database;
-public class TodoListDBContext : DbContext
+public class TodoListDbContext : DbContext
 {
-    public TodoListDBContext(DbContextOptions<TodoListDBContext> options)
+    public TodoListDbContext(DbContextOptions<TodoListDbContext> options)
         : base(options)
     {
     }

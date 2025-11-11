@@ -12,12 +12,12 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddDb(this IServiceCollection services)
     {
-        services.AddOptions<DbOptionsSetup>();
+        services.ConfigureOptions<DbOptionsSetup>();
         var serviceProvider = services.BuildServiceProvider();
         var dbOption = serviceProvider.GetRequiredService<IOptions<DbOptions>>().Value;
         var connectionString = $"Server={dbOption.Server};Database={dbOption.DbName};Trusted_Connection=True";
 
-        services.AddDbContext<TodoListDBContext>(opt => opt.UseSqlServer(connectionString));
+        services.AddDbContext<TodoListDbContext>(opt => opt.UseSqlServer(connectionString));
 
         services.AddScoped<ITodoListDbService, TodoListDbService>();
 

@@ -1,4 +1,4 @@
-using WebApi.Domain.TodoList;
+using WebApi.Domain;
 
 namespace WebApi.Database.EntityServices.Interfaces;
 

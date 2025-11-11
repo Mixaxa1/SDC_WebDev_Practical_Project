@@ -1,7 +1,9 @@
-namespace WebApi.Domain.TodoList;
+namespace WebApi.Domain;
 
-public class TodoListEntity : Entity
+public class TodoList
 {
+    public int Id { get; set; }
+
     public required string Title { get; set; }
 
     public string Description { get; set; } = string.Empty;
