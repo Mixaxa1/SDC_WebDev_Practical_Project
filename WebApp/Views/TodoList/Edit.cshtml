@@ -1,0 +1,15 @@
+@model TodoList
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<body>
+	<label>List Title</label>
+	<input type="text" value="@Model.Title" />
+	<label>List Description</label>
+	<input type="text" value="@Model.Description" />
+
+	<input type="button" value="Submit" asp-action="SubmitEdit" asp-route-model="@Model" />
+</body>

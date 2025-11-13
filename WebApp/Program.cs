@@ -1,3 +1,6 @@
+using WebApp.WebApiServices;
+using WebApp.WebApiServices.Interfaces;
+
 namespace WebApp;
 
 internal static class Program
@@ -8,6 +11,8 @@ internal static class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+
+        builder.Services.AddTransient<ITodoListApiService, TodoListApiService>();
 
         var app = builder.Build();
 

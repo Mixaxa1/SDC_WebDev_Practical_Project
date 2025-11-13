@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Options;
 
-namespace WebApi.Options.OptionsSetup;
+namespace WebApi.Options.OptionsSetups;
 
 public class DbOptionsSetup(IConfiguration configuration) : IConfigureOptions<DbOptions>
 {
