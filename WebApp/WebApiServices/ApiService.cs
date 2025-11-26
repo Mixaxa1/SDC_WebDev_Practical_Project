@@ -9,7 +9,7 @@ public class ApiService<TModel> : IApiService<TModel>
 {
     protected string Route { get; init; }
 
-    public async Task Create(TModel postObject)
+    public async Task CreateAsync(TModel postObject)
     {
         using var client = new HttpClient();
         var response = await client.PostAsJsonAsync<TModel>(new Uri(this.Route), postObject);

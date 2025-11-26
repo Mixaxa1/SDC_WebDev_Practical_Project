@@ -5,7 +5,7 @@ namespace WebApp.WebApiServices.Interfaces;
 public interface IApiService<TModel>
     where TModel : DataModel
 {
-    Task Create(TModel postObject);
+    Task CreateAsync(TModel postObject);
 
     Task<TModel> GetByIdAsync(int id);
 
