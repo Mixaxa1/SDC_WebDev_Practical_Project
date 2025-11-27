@@ -1,0 +1,28 @@
+@model IEnumerable<TodoList>
+@{
+
+}
+
+
+<head>
+	<a asp-action="Create">Create new</a>
+	<h2>The grand list of lists</h2>
+</head>
+
+<p>
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Ttile</th>
+				<th>Descriprion</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var list in Model)
+			{
+				@await Html.PartialAsync("_ListRowPartial", list);
+			}
+		</tbody>
+	</table>
+</p>

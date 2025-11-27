@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Domain;
 using WebApi.Models;
 
@@ -11,5 +11,6 @@ public class TodoListDbContext : DbContext
     }
 
     public DbSet<TodoListEntity> TodoLists { get; set; }
-    public DbSet<WebApi.Models.TodoListModel> TodoListModel { get; set; } = default!;
+
+    public DbSet<TodoListModel> TodoListModel { get; set; } = default!;
 }
