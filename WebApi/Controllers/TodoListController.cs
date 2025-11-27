@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebApi.Database;
-using WebApi.Database.EntityServices.Interfaces;
-using WebApi.Domain;
+﻿using Database;
+using Database.EntityServices.Interfaces;
+using Domain.Entities.TodoList;
+using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 
 namespace WebApi.Controllers;
@@ -10,10 +10,10 @@ namespace WebApi.Controllers;
 [ApiController]
 public class TodoListController : ControllerBase
 {
-    private readonly TodoListDbContext _context;
+    private readonly AppDbContext _context;
     private readonly ITodoListDbService _dbService;
 
-    public TodoListController(TodoListDbContext context, ITodoListDbService todoListDbService)
+    public TodoListController(AppDbContext context, ITodoListDbService todoListDbService)
     {
         _context = context;
         _dbService = todoListDbService;
@@ -22,7 +22,7 @@ public class TodoListController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Create(TodoListModel todoListModel)
     {
-        var newList = new TodoListEntity()
+        var newList = new TodoList()
         {
             Title = todoListModel.Title,
             Description = todoListModel.Description,

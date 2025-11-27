@@ -2,16 +2,16 @@
 
 #nullable disable
 
-namespace WebApi.Migrations
+namespace Database.Migrations
 {
     /// <inheritdoc />
-    public partial class MigrationFix : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TodoListModel",
+                name: "TodoLists",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -21,7 +21,7 @@ namespace WebApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TodoListModel", x => x.Id);
+                    table.PrimaryKey("PK_TodoLists", x => x.Id);
                 });
         }
 
@@ -29,7 +29,7 @@ namespace WebApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TodoListModel");
+                name: "TodoLists");
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace WebApi.Domain;
+namespace Domain.Entities;
 
 public class Entity
 {
