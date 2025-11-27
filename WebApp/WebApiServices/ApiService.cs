@@ -1,10 +1,12 @@
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using WebApp.Models;
+using WebApp.Options;
 using WebApp.WebApiServices.Interfaces;
 
 namespace WebApp.WebApiServices;
 
-public class ApiService<TModel> : IApiService<TModel>
+public class ApiService<TModel>(IOptions<EndPointsOptions> options) : IApiService<TModel>
     where TModel : DataModel
 {
     protected string Route { get; init; }
@@ -20,7 +22,7 @@ public class ApiService<TModel> : IApiService<TModel>
     public async Task DeleteAsync(int id)
     {
         using var client = new HttpClient();
-        var response = await client.DeleteAsync(new Uri(this.Route + $"/{id}"));
+        var response = await client.DeleteAsync(new Uri(this.Route + $"{id}"));
 
         response.EnsureSuccessStatusCode();
     }
@@ -47,7 +49,7 @@ public class ApiService<TModel> : IApiService<TModel>
         TModel result = null;
         using (var client = new HttpClient())
         {
-            var response = await client.GetAsync(new Uri(this.Route + $"/{id}"));
+            var response = await client.GetAsync(new Uri(this.Route + $"{id}"));
 
             response.EnsureSuccessStatusCode();
 
@@ -62,7 +64,7 @@ public class ApiService<TModel> : IApiService<TModel>
     {
         using (var client = new HttpClient())
         {
-            var response = await client.PutAsJsonAsync<TModel>(new Uri(this.Route + $"/{id}"), model);
+            var response = await client.PutAsJsonAsync<TModel>(new Uri(this.Route + $"{id}"), model);
 
             response.EnsureSuccessStatusCode();
         }

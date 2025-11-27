@@ -1,12 +1,14 @@
+using Microsoft.Extensions.Options;
 using WebApp.Models;
+using WebApp.Options;
 using WebApp.WebApiServices.Interfaces;
 
 namespace WebApp.WebApiServices;
 
 public class TodoListApiService : ApiService<TodoList>, ITodoListApiService
 {
-    public TodoListApiService()
+    public TodoListApiService(IOptions<EndPointsOptions> options) : base(options)
     {
-        this.Route = "https://localhost:7223/api/TodoList";
+        this.Route = options.Value.CommonBase + options.Value.TodoListBase;
     }
 }
