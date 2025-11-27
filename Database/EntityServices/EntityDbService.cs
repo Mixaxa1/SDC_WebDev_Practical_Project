@@ -1,13 +1,13 @@
+using Database.EntityServices.Interfaces;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Database.EntityServices.Interfaces;
-using WebApi.Domain;
 
-namespace WebApi.Database.EntityServices;
+namespace Database.EntityServices;
 
-public class EntityDbService<TEntity>(TodoListDbContext dbContext) : IEntityDbService<TEntity>
+public class EntityDbService<TEntity>(AppDbContext dbContext) : IEntityDbService<TEntity>
     where TEntity : Entity
 {
-    protected TodoListDbContext dbContext = dbContext;
+    protected AppDbContext dbContext = dbContext;
     protected DbSet<TEntity> dbSet = dbContext.Set<TEntity>();
 
     public async Task CreateAsync(TEntity entity)

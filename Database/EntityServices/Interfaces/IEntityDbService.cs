@@ -1,6 +1,6 @@
-using WebApi.Domain;
+using Domain.Entities;
 
-namespace WebApi.Database.EntityServices.Interfaces;
+namespace Database.EntityServices.Interfaces;
 
 public interface IEntityDbService<TEntity>
     where TEntity : Entity

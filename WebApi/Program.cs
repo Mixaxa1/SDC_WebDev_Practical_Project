@@ -1,3 +1,5 @@
+using Database;
+
 namespace WebApi;
 
 internal static class Program

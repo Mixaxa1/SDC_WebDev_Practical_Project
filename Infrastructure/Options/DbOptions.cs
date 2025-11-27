@@ -1,4 +1,4 @@
-namespace WebApi.Options;
+namespace Infrastructure.Options;
 
 public class DbOptions
 {
