@@ -14,7 +14,7 @@ namespace Domain.Entities.Task
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime DueAt { get; set; }
-        public TaskStatus Status { get; set; }
+        public TaskState Status { get; set; }
         public IEnumerable<Tag>? Tags { get; set; }
     }
 }

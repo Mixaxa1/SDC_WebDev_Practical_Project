@@ -1,0 +1,8 @@
+﻿[*.cs]
+
+
+# CA2007: Попробуйте вызвать ConfigureAwait для ожидаемой задачи
+dotnet_diagnostic.CA2007.severity = silent
+
+# CA1515: Рассмотрите возможность сделать общедоступные типы внутренними
+dotnet_diagnostic.CA1515.severity = silent

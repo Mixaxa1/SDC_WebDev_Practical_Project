@@ -1,6 +1,7 @@
 ﻿using Database;
 using Database.EntityServices.Interfaces;
 using Domain.Entities.List;
+using Domain.Entities.Task;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 
@@ -11,87 +12,104 @@ namespace WebApi.Controllers;
 public class TodoTaskController : ControllerBase
 {
     private readonly AppDbContext _context;
-    private readonly ITodoListDbService _dbService;
+    private readonly ITodoListDbService _listDbService;
+    private readonly ITodoTaskDbService _taskDbService;
 
-    public TodoTaskController(AppDbContext context, ITodoListDbService todoListDbService)
+    public TodoTaskController(AppDbContext context, ITodoListDbService todoListDbService, ITodoTaskDbService todoTaskDbService)
     {
         _context = context;
-        _dbService = todoListDbService;
+        _listDbService = todoListDbService;
+        _taskDbService = todoTaskDbService;
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(TodoListModel todoListModel)
+    public async Task<ActionResult> Create(TodoTaskModel taskModel)
     {
-        var newList = new TodoList()
+        var parentList = await _listDbService.GetByIdAsync(taskModel.Id);
+
+        var newTask = new TodoTask()
         {
-            Title = todoListModel.Title,
-            Description = todoListModel.Description,
+            List = parentList,
+            Title = taskModel.Title,
+            Description = taskModel.Description,
+            CreatedAt = taskModel.CreatedAt,
+            DueAt = taskModel.DueAt,
+            Status = (TaskState)taskModel.Status,
         };
 
-        await _dbService.CreateAsync(newList);
+        await _taskDbService.CreateAsync(newTask);
         await _context.SaveChangesAsync();
 
         return Ok();
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<TodoListModel>> GetById(int id)
+    public async Task<ActionResult<TodoTaskModel>> GetById(int id)
     {
-        var list = await _dbService.GetByIdAsync(id);
+        var task = await _taskDbService.GetByIdAsync(id);
 
-        if (list == null)
+        if (task == null)
         {
             return NotFound();
         }
 
-        var listModel = new TodoListModel()
+        var taskModel = new TodoTaskModel()
         {
-            Id = list.Id,
-            Title = list.Title,
-            Description = list.Description,
+            Id = task.Id,
+            ListId = task.List.Id,
+            Title = task.Title,
+            Description = task.Description,
+            CreatedAt = task.CreatedAt,
+            DueAt= task.DueAt,
+            Status = (int)task.Status,
+
         };
 
-        return listModel;
+        return taskModel;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TodoListModel>>> GetAll()
+    public async Task<ActionResult<IEnumerable<TodoTaskModel>>> GetAll()
     {
-        var lists = await _dbService.GetAllAsync();
-        var modelLists = new List<TodoListModel>();
+        var tasks = await _taskDbService.GetAllAsync();
+        var modelTasks = new List<TodoTaskModel>();
 
-        foreach (var list in lists)
+        foreach (var list in tasks)
         {
-            modelLists.Add(new TodoListModel()
+            modelTasks.Add(new TodoTaskModel()
             {
                 Id = list.Id,
+                ListId= list.List.Id,
                 Title = list.Title,
                 Description = list.Description,
+                CreatedAt = list.CreatedAt,
+                DueAt= list.DueAt,
+                Status = (int)list.Status,
             });
         }
 
-        return modelLists;
+        return modelTasks;
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, TodoListModel todoListModel)
+    public async Task<IActionResult> Update(int id, TodoTaskModel taskModel)
     {
-        if (id != todoListModel.Id)
+        if (id != taskModel.Id)
         {
             return BadRequest();
         }
 
-        var listFromDb = await _dbService.GetByIdAsync(id);
+        var task = await _taskDbService.GetByIdAsync(id);
 
-        if (listFromDb == null)
+        if (task == null)
         {
             return NotFound();
         }
 
-        listFromDb.Title = todoListModel.Title;
-        listFromDb.Description = todoListModel.Description;
+        task.Title = task.Title;
+        task.Description = task.Description;
 
-        _dbService.Update(listFromDb);
+        _taskDbService.Update(task);
         await _context.SaveChangesAsync();
 
         return Ok();
@@ -100,13 +118,13 @@ public class TodoTaskController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var listFromDb = await _dbService.GetByIdAsync(id);
-        if (listFromDb == null)
+        var task = await _taskDbService.GetByIdAsync(id);
+        if (task == null)
         {
             return NotFound();
         }
 
-        _dbService.Delete(listFromDb);
+        _taskDbService.Delete(task);
         await _context.SaveChangesAsync();
 
         return Ok();

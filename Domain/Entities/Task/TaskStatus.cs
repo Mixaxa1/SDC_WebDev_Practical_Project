@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities.Task
 {
-    public enum TaskStatus
+    public enum TaskState
     {
         NotStarted,
         InProgress,

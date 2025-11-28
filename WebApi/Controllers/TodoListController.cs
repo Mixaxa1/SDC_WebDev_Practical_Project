@@ -20,12 +20,12 @@ public class TodoListController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(TodoListModel todoListModel)
+    public async Task<ActionResult> Create(TodoListModel listModel)
     {
         var newList = new TodoList()
         {
-            Title = todoListModel.Title,
-            Description = todoListModel.Description,
+            Title = listModel.Title,
+            Description = listModel.Description,
         };
 
         await _dbService.CreateAsync(newList);
@@ -74,9 +74,9 @@ public class TodoListController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, TodoListModel todoListModel)
+    public async Task<IActionResult> Update(int id, TodoListModel listModel)
     {
-        if (id != todoListModel.Id)
+        if (id != listModel.Id)
         {
             return BadRequest();
         }
@@ -88,8 +88,8 @@ public class TodoListController : ControllerBase
             return NotFound();
         }
 
-        listFromDb.Title = todoListModel.Title;
-        listFromDb.Description = todoListModel.Description;
+        listFromDb.Title = listModel.Title;
+        listFromDb.Description = listModel.Description;
 
         _dbService.Update(listFromDb);
         await _context.SaveChangesAsync();
@@ -100,13 +100,13 @@ public class TodoListController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var listFromDb = await _dbService.GetByIdAsync(id);
-        if (listFromDb == null)
+        var list = await _dbService.GetByIdAsync(id);
+        if (list == null)
         {
             return NotFound();
         }
 
-        _dbService.Delete(listFromDb);
+        _dbService.Delete(list);
         await _context.SaveChangesAsync();
 
         return Ok();

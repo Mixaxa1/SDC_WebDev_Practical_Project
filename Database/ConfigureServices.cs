@@ -21,6 +21,7 @@ public static class ConfigureServices
         services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(connectionString));
 
         services.AddScoped<ITodoListDbService, TodoListDbService>();
+        services.AddScoped<ITodoTaskDbService, TodoTaskDbService>();
 
         return services;
     }
