@@ -1,5 +1,5 @@
 using Database.EntityServices.Interfaces;
-using Domain.Entities.TodoList;
+using Domain.Entities.List;
 
 namespace Database.EntityServices;
 

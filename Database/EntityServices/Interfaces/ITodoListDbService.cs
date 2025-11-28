@@ -1,4 +1,4 @@
-using Domain.Entities.TodoList;
+using Domain.Entities.List;
 
 namespace Database.EntityServices.Interfaces;
 
