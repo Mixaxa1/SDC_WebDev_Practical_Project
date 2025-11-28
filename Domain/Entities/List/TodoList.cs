@@ -1,4 +1,4 @@
-namespace Domain.Entities.TodoList;
+namespace Domain.Entities.List;
 
 public class TodoList : Entity
 {

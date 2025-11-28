@@ -8,12 +8,12 @@ namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TodoListController : ControllerBase
+public class TodoTaskController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly ITodoListDbService _dbService;
 
-    public TodoListController(AppDbContext context, ITodoListDbService todoListDbService)
+    public TodoTaskController(AppDbContext context, ITodoListDbService todoListDbService)
     {
         _context = context;
         _dbService = todoListDbService;
