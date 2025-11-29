@@ -4,20 +4,22 @@
 *@
 @{
 }
-<head>
-	<a asp-action="index">Back</a> 
-	<h2>Edit list</h2>
-</head>
-<form asp-action="Edit" asp-controller="TodoList" asp-route-id="@Model.Id" method="post">
-	<div class="form-element">
-		@Html.LabelFor(m => m.Title)
-		@Html.TextBoxFor(m => m.Title)
+<body>
+	<div class="div1">
+		<a class="btn" asp-action="Details" asp-route-id="@Model.Id">Back</a>
 	</div>
-	<div class="form-element">
-		@Html.LabelFor(m => m.Description)
-		@Html.TextBoxFor(m => m.Description)
-	</div>
-	<div class="form-element">
-		<input type="submit" />
-	</div>
-</form>
+
+	<form asp-action="Edit" asp-controller="TodoList" asp-route-id="@Model.Id" method="post">
+		<div class="div1">
+			@Html.LabelFor(m => m.Title)
+			@Html.TextBoxFor(m => m.Title)
+		</div>
+		<div class="div1">
+			@Html.LabelFor(m => m.Description)
+			@Html.TextBoxFor(m => m.Description)
+		</div>
+		<div class="div1">
+			<input type="submit" />
+		</div>
+	</form>
+</body>
