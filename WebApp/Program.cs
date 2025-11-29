@@ -14,7 +14,7 @@ internal static class Program
         builder.Services.AddControllersWithViews();
 
         builder.Services.ConfigureOptions<EndPointsOptionsSetup>();
-        builder.Services.AddTransient<ITodoListApiService, TodoListApiService>();
+        builder.Services.AddScoped<ITodoListApiService, TodoListApiService>();
 
         var app = builder.Build();
 
@@ -35,7 +35,7 @@ internal static class Program
         app.MapStaticAssets();
         app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}")
+            pattern: "{controller=TodoList}/{action=Index}/{id?}")
             .WithStaticAssets();
 
         app.Run();

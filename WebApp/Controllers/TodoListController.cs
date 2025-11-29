@@ -26,11 +26,11 @@ public class TodoListController : Controller
         return View(list);
     }
 
-    public async Task Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         await _todoListApiService.DeleteAsync(id);
 
-        RedirectToAction("Index");
+        return RedirectToAction("Index");
     }
 
     public async Task<IActionResult> Edit(int id)
