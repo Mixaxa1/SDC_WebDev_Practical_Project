@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 
-namespace WebApp.Models;
+namespace WebApp.Models.TodoList;
 
-public class TodoList : DataModel
+public class TodoListModel : BaseModel
 {
     [JsonProperty("title")]
     public string Title { get; set; }

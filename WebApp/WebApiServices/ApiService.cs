@@ -7,7 +7,7 @@ using WebApp.WebApiServices.Interfaces;
 namespace WebApp.WebApiServices;
 
 public class ApiService<TModel>(IOptions<EndPointsOptions> options) : IApiService<TModel>
-    where TModel : DataModel
+    where TModel : BaseModel
 {
     protected string Route { get; init; }
 

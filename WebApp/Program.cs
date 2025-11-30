@@ -15,6 +15,7 @@ internal static class Program
 
         builder.Services.ConfigureOptions<EndPointsOptionsSetup>();
         builder.Services.AddScoped<ITodoListApiService, TodoListApiService>();
+        builder.Services.AddScoped<ITodoTaskApiService, TodoTaskApiService>();
 
         var app = builder.Build();
 

@@ -3,7 +3,7 @@ using WebApp.Models;
 namespace WebApp.WebApiServices.Interfaces;
 
 public interface IApiService<TModel>
-    where TModel : DataModel
+    where TModel : BaseModel
 {
     Task CreateAsync(TModel postObject);
 

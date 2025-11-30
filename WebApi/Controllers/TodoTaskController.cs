@@ -25,16 +25,16 @@ public class TodoTaskController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Create(TodoTaskModel taskModel)
     {
-        var parentList = await _listDbService.GetByIdAsync(taskModel.Id);
+        var parentList = await _listDbService.GetByIdAsync(taskModel.ListId);
 
         var newTask = new TodoTask()
         {
             List = parentList,
             Title = taskModel.Title,
             Description = taskModel.Description,
-            CreatedAt = taskModel.CreatedAt,
-            DueAt = taskModel.DueAt,
-            Status = (TaskState)taskModel.Status,
+            CreatedAt = DateTime.Now,
+            DueAt = DateTime.Now,
+            Status = TaskState.NotStarted
         };
 
         await _taskDbService.CreateAsync(newTask);
@@ -74,17 +74,40 @@ public class TodoTaskController : ControllerBase
         var tasks = await _taskDbService.GetAllAsync();
         var modelTasks = new List<TodoTaskModel>();
 
-        foreach (var list in tasks)
+        foreach (var task in tasks)
         {
             modelTasks.Add(new TodoTaskModel()
             {
-                Id = list.Id,
-                ListId= list.List.Id,
-                Title = list.Title,
-                Description = list.Description,
-                CreatedAt = list.CreatedAt,
-                DueAt= list.DueAt,
-                Status = (int)list.Status,
+                Id = task.Id,
+                ListId= task.List.Id,
+                Title = task.Title,
+                Description = task.Description,
+                CreatedAt = task.CreatedAt,
+                DueAt= task.DueAt,
+                Status = (int)task.Status,
+            });
+        }
+
+        return modelTasks;
+    }
+
+    [HttpPut("all/{id}")]
+    public async Task<ActionResult<IEnumerable<TodoTaskModel>>> GetAllById(int id)
+    {
+        var tasks = await _taskDbService.GetAllByExpressionAsync(x => x.List.Id == id);
+        var modelTasks = new List<TodoTaskModel>();
+
+        foreach (var task in tasks)
+        {
+            modelTasks.Add(new TodoTaskModel()
+            {
+                Id = task.Id,
+                ListId = task.List.Id,
+                Title = task.Title,
+                Description = task.Description,
+                CreatedAt = task.CreatedAt,
+                DueAt = task.DueAt,
+                Status = (int)task.Status,
             });
         }
 

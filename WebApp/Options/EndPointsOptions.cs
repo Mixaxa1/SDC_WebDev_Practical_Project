@@ -7,4 +7,5 @@ public class EndPointsOptions
     public required string CommonBase { get; init; }
 
     public required string TodoListBase { get; init; }
+    public required string TodoTaskBase { get; init; }
 }

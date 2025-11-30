@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
+using WebApp.Models.TodoList;
 using WebApp.WebApiServices.Interfaces;
 
 namespace WebApp.Controllers;
@@ -21,7 +22,7 @@ public class TodoListController : Controller
 
     public async Task<IActionResult> Details(int id)
     {
-        var list = await _todoListApiService.GetByIdAsync(id);
+         var list = await _todoListApiService.GetByIdAsync(id);
 
         return View(list);
     }
@@ -37,7 +38,7 @@ public class TodoListController : Controller
     {
         var list = await _todoListApiService.GetByIdAsync(id);
 
-        var editList = new EditTodoList
+        var editList = new TodoListModel
         {
             Id = list.Id,
             Title = list.Title,
@@ -48,9 +49,9 @@ public class TodoListController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit([FromRoute] int id, EditTodoList vm)
+    public async Task<IActionResult> Edit([FromRoute] int id, TodoListModel vm)
     {
-        var list = new TodoList
+        var list = new TodoListModel
         {
             Id = vm.Id,
             Title = vm.Title,
@@ -70,7 +71,7 @@ public class TodoListController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(CreateTodoList vm)
     {
-        var list = new TodoList
+        var list = new TodoListModel
         {
             Title = vm.Title,
             Description = vm.Description

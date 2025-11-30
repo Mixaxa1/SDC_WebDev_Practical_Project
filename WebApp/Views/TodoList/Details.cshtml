@@ -1,6 +1,7 @@
-@model TodoList
+@using WebApp.Models.TodoList
+@model TodoListModel
 @*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+    For monformation on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
@@ -25,4 +26,21 @@
         <h3>Description</h3>
         <P>@Model.Description</P>
     </div>
+
+    <div class="div1">
+        <a class="btn" asp-controller="TodoTask" asp-action="Create" asp-route-id="@Model.Id" method="post">Create task</a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Ttile</th>
+                <th>Descriprion</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
 </body>

@@ -1,9 +1,7 @@
-namespace WebApp.Models;
+namespace WebApp.Models.TodoList;
 
-public class EditTodoList
+public class CreateTodoList
 {
-    public int Id { get; set; }
-
     public string Title { get; set; }
 
     public string Description { get; set; }
