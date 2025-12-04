@@ -13,8 +13,9 @@ internal static class Program
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
-        builder.Services.ConfigureOptions<EndPointsOptionsSetup>();
+        builder.Services.ConfigureOptions<EndpointsOptionsSetup>();
         builder.Services.AddScoped<ITodoListApiService, TodoListApiService>();
+        builder.Services.AddScoped<ITodoTaskApiService, TodoTaskApiService>();
 
         var app = builder.Build();
 

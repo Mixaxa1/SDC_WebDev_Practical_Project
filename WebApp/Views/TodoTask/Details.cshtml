@@ -1,0 +1,30 @@
+@using WebApp.Models.TodoTask
+
+@model TodoTaskModel
+@*
+    For monformation on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<body>
+    <a class="btn" asp-controller="TodoList" asp-action="Details" asp-route-id="@Model.ListId">Back</a>
+
+    <h1>@Model.Title</h1>
+
+    <div class="div1">
+        <ul>
+            <li class="liHor">
+                <a class="btn" asp-action="Edit" asp-route-id="@Model.Id" method="post">Edit list</a>
+            </li>
+            <li class="liHor">
+                <a class="btn" asp-action="Delete" asp-route-id="@Model.Id" asp-route-listId="@Model.ListId">Delete list</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="div1">
+        <h3>Description</h3>
+        <P>@Model.Description</P>
+    </div>
+</body>

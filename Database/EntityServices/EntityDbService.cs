@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Database.EntityServices.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -33,5 +34,15 @@ public class EntityDbService<TEntity>(AppDbContext dbContext) : IEntityDbService
     public void Delete(TEntity entity)
     {
         this.dbSet.Remove(entity);
+    }
+
+    public Task<List<TEntity>> GetAllByExpressionAsync(Expression<Func<TEntity, bool>> expression)
+    {
+        return this.dbSet.Where(expression).ToListAsync();
+    }
+
+    public async Task<TEntity?> GetByIdWithIncludesAsync(int id, params Expression<Func<TEntity, object>>[] includes)
+    {
+        return await includes.Aggregate(dbSet.AsQueryable(), (c, i) => c.Include(i)).FirstOrDefaultAsync(x => x.Id == id);
     }
 }

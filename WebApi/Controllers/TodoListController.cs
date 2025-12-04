@@ -54,6 +54,42 @@ public class TodoListController : ControllerBase
         return listModel;
     }
 
+    [HttpGet("withTasks/{id}")]
+    public async Task<ActionResult<TodoListModel>> GetByIdWithTasks(int id)
+    {
+        var list = await _dbService.GetByIdWithIncludesAsync(id, list => list.Tasks);
+
+        if (list == null)
+        {
+            return NotFound();
+        }
+
+        var tasks = new List<TodoTaskModel>();
+
+        foreach (var task in list.Tasks)
+        {
+            tasks.Add(new TodoTaskModel()
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                CreatedAt = task.CreatedAt,
+                DueAt = task.DueAt,
+                Status = (int)task.Status
+            });
+        }
+
+        var listModel = new TodoListModel()
+        {
+            Id = list.Id,
+            Title = list.Title,
+            Description = list.Description,
+            Tasks = tasks
+        };
+
+        return listModel;
+    }
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TodoListModel>>> GetAll()
     {

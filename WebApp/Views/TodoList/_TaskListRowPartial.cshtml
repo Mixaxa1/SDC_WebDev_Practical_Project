@@ -1,0 +1,14 @@
+﻿@using WebApp.Models.TodoTask
+@model TodoTaskModel
+
+<tr>
+	<td>@Model.Title</td>
+	<td>@Model.Description</td>
+	<td>@Model.CreatedAt</td>
+	<td>@Model.DueAt</td>
+	<td>@Model.Status</td>
+
+	<td>
+		<a asp-action="Details" asp-controller="TodoTask" asp-route-id="@Model.Id">See details</a>
+	</td>
+</tr>
