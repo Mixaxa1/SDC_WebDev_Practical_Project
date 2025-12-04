@@ -2,10 +2,10 @@ using Microsoft.Extensions.Options;
 
 namespace WebApp.Options.OptionsSetup;
 
-public class EndPointsOptionsSetup(IConfiguration configuration) : IConfigureOptions<EndPointsOptions>
+public class EndpointsOptionsSetup(IConfiguration configuration) : IConfigureOptions<EndpointsOptions>
 {
-    public void Configure(EndPointsOptions options)
+    public void Configure(EndpointsOptions options)
     {
-        configuration.GetSection(EndPointsOptions.SectionName).Bind(options);
+        configuration.GetSection(EndpointsOptions.SectionName).Bind(options);
     }
 }

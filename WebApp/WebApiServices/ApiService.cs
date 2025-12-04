@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using WebApp.Models;
@@ -6,15 +7,16 @@ using WebApp.WebApiServices.Interfaces;
 
 namespace WebApp.WebApiServices;
 
-public class ApiService<TModel>(IOptions<EndPointsOptions> options) : IApiService<TModel>
+public class ApiService<TModel>(IOptions<EndpointsOptions> options) : IApiService<TModel>
     where TModel : BaseModel
 {
-    protected string Route { get; init; }
+    protected EndpointsOptions _options = options.Value;
+    protected string _baseRoute { get; init; }
 
     public async Task CreateAsync(TModel postObject)
     {
         using var client = new HttpClient();
-        var response = await client.PostAsJsonAsync<TModel>(new Uri(this.Route), postObject);
+        var response = await client.PostAsJsonAsync<TModel>(new Uri(_baseRoute), postObject);
 
         response.EnsureSuccessStatusCode();
     }
@@ -22,7 +24,7 @@ public class ApiService<TModel>(IOptions<EndPointsOptions> options) : IApiServic
     public async Task DeleteAsync(int id)
     {
         using var client = new HttpClient();
-        var response = await client.DeleteAsync(new Uri(this.Route + $"{id}"));
+        var response = await client.DeleteAsync(new Uri(_baseRoute + $"{id}"));
 
         response.EnsureSuccessStatusCode();
     }
@@ -31,15 +33,14 @@ public class ApiService<TModel>(IOptions<EndPointsOptions> options) : IApiServic
     {
         List<TModel> result = [];
 
-        using (var client = new HttpClient())
-        {
-            var response = await client.GetAsync(new Uri(this.Route));
+        using var client = new HttpClient();
+        
+        var response = await client.GetAsync(new Uri(_baseRoute));
 
-            response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode();
 
-            var content = await response.Content.ReadAsStringAsync();
-            result = JsonConvert.DeserializeObject<List<TModel>>(content);
-        }
+        var content = await response.Content.ReadAsStringAsync();
+        result = JsonConvert.DeserializeObject<List<TModel>>(content);
 
         return result;
     }
@@ -49,7 +50,7 @@ public class ApiService<TModel>(IOptions<EndPointsOptions> options) : IApiServic
         TModel result = null;
         using (var client = new HttpClient())
         {
-            var response = await client.GetAsync(new Uri(this.Route + $"{id}"));
+            var response = await client.GetAsync(new Uri(_baseRoute + $"{id}"));
 
             response.EnsureSuccessStatusCode();
 
@@ -64,7 +65,7 @@ public class ApiService<TModel>(IOptions<EndPointsOptions> options) : IApiServic
     {
         using (var client = new HttpClient())
         {
-            var response = await client.PutAsJsonAsync<TModel>(new Uri(this.Route + $"{id}"), model);
+            var response = await client.PutAsJsonAsync<TModel>(new Uri(_baseRoute + $"{id}"), model);
 
             response.EnsureSuccessStatusCode();
         }

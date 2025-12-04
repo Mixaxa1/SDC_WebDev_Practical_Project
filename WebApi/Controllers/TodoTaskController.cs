@@ -91,29 +91,6 @@ public class TodoTaskController : ControllerBase
         return modelTasks;
     }
 
-    [HttpPut("all/{id}")]
-    public async Task<ActionResult<IEnumerable<TodoTaskModel>>> GetAllById(int id)
-    {
-        var tasks = await _taskDbService.GetAllByExpressionAsync(x => x.List.Id == id);
-        var modelTasks = new List<TodoTaskModel>();
-
-        foreach (var task in tasks)
-        {
-            modelTasks.Add(new TodoTaskModel()
-            {
-                Id = task.Id,
-                ListId = task.List.Id,
-                Title = task.Title,
-                Description = task.Description,
-                CreatedAt = task.CreatedAt,
-                DueAt = task.DueAt,
-                Status = (int)task.Status,
-            });
-        }
-
-        return modelTasks;
-    }
-
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, TodoTaskModel taskModel)
     {

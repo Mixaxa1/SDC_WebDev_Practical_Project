@@ -40,4 +40,9 @@ public class EntityDbService<TEntity>(AppDbContext dbContext) : IEntityDbService
     {
         return this.dbSet.Where(expression).ToListAsync();
     }
+
+    public async Task<TEntity?> GetByIdWithIncludesAsync(int id, params Expression<Func<TEntity, object>>[] includes)
+    {
+        return await includes.Aggregate(dbSet.AsQueryable(), (c, i) => c.Include(i)).FirstOrDefaultAsync(x => x.Id == id);
+    }
 }

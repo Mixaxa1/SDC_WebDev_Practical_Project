@@ -22,7 +22,7 @@ public class TodoListController : Controller
 
     public async Task<IActionResult> Details(int id)
     {
-         var list = await _todoListApiService.GetByIdAsync(id);
+         var list = await _todoListApiService.GetByIdWithTasksAsync(id);
 
         return View(list);
     }

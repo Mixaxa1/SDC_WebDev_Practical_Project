@@ -7,4 +7,6 @@ public class TodoListModel
     public string Title { get; set; }
 
     public string Description { get; set; }
+
+    public IEnumerable<TodoTaskModel>? Tasks { get; set; }
 }

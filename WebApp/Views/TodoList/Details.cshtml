@@ -39,7 +39,11 @@
             </tr>
         </thead>
         <tbody>
-            
+            @foreach (var task in Model.Tasks)
+            {
+                @await Html.PartialAsync("_TaskListRowPartial", task)
+                ;
+            }
         </tbody>
     </table>
 
