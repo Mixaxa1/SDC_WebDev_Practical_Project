@@ -13,35 +13,35 @@ public class EntityDbService<TEntity>(AppDbContext dbContext) : IEntityDbService
 
     public async Task CreateAsync(TEntity entity)
     {
-        await this.dbSet.AddAsync(entity);
+        await dbSet.AddAsync(entity);
     }
 
-    public async Task<TEntity?> GetByIdAsync(int id)
+    public async Task<TEntity?> GetByIdAsync(Guid id)
     {
-        return await this.dbSet.FirstOrDefaultAsync(x => x.Id == id);
+        return await dbSet.FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<List<TEntity>> GetAllAsync()
     {
-        return await this.dbSet.ToListAsync();
+        return await dbSet.ToListAsync();
     }
 
     public TEntity Update(TEntity entity)
     {
-        return this.dbSet.Update(entity).Entity;
+        return dbSet.Update(entity).Entity;
     }
 
     public void Delete(TEntity entity)
     {
-        this.dbSet.Remove(entity);
+        dbSet.Remove(entity);
     }
 
     public Task<List<TEntity>> GetAllByExpressionAsync(Expression<Func<TEntity, bool>> expression)
     {
-        return this.dbSet.Where(expression).ToListAsync();
+        return dbSet.Where(expression).ToListAsync();
     }
 
-    public async Task<TEntity?> GetByIdWithIncludesAsync(int id, params Expression<Func<TEntity, object>>[] includes)
+    public async Task<TEntity?> GetByIdWithIncludesAsync(Guid id, params Expression<Func<TEntity, object>>[] includes)
     {
         return await includes.Aggregate(dbSet.AsQueryable(), (c, i) => c.Include(i)).FirstOrDefaultAsync(x => x.Id == id);
     }

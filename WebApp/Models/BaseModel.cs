@@ -5,5 +5,5 @@ namespace WebApp.Models;
 public class BaseModel
 {
     [JsonProperty("id")]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 }
