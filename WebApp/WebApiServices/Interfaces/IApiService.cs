@@ -7,11 +7,11 @@ public interface IApiService<TModel>
 {
     Task CreateAsync(TModel postObject);
 
-    Task<TModel> GetByIdAsync(int id);
+    Task<TModel> GetByIdAsync(Guid id);
 
     Task<List<TModel>> GetAllAsync();
 
-    Task UpdateAsync(int id, TModel model);
+    Task UpdateAsync(TModel model);
 
-    Task DeleteAsync(int id);
+    Task DeleteAsync(Guid id);
 }

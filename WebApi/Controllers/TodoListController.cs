@@ -35,7 +35,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<TodoListModel>> GetById(int id)
+    public async Task<ActionResult<TodoListModel>> GetById(Guid id)
     {
         var list = await _dbService.GetByIdAsync(id);
 
@@ -55,7 +55,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpGet("withTasks/{id}")]
-    public async Task<ActionResult<TodoListModel>> GetByIdWithTasks(int id)
+    public async Task<ActionResult<TodoListModel>> GetByIdWithTasks(Guid id)
     {
         var list = await _dbService.GetByIdWithIncludesAsync(id, list => list.Tasks);
 
@@ -110,14 +110,9 @@ public class TodoListController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, TodoListModel listModel)
+    public async Task<IActionResult> Update(TodoListModel listModel)
     {
-        if (id != listModel.Id)
-        {
-            return BadRequest();
-        }
-
-        var listFromDb = await _dbService.GetByIdAsync(id);
+        var listFromDb = await _dbService.GetByIdAsync(listModel.Id);
 
         if (listFromDb == null)
         {
@@ -134,7 +129,7 @@ public class TodoListController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var list = await _dbService.GetByIdAsync(id);
         if (list == null)

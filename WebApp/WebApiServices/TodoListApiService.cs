@@ -14,7 +14,7 @@ public class TodoListApiService : ApiService<TodoListModel>, ITodoListApiService
         _baseRoute = options.Value.CommonBase + options.Value.ListEndpoints.Base;
     }
 
-    public async Task<TodoListModel> GetByIdWithTasksAsync(int id)
+    public async Task<TodoListModel> GetByIdWithTasksAsync(Guid id)
     {
         using var client = new HttpClient();
 

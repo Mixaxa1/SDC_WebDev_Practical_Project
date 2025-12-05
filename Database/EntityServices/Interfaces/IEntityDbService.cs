@@ -8,9 +8,9 @@ public interface IEntityDbService<TEntity>
 {
     Task CreateAsync(TEntity entity);
 
-    Task<TEntity?> GetByIdAsync(int id);
+    Task<TEntity?> GetByIdAsync(Guid id);
 
-    Task<TEntity?> GetByIdWithIncludesAsync(int id, params Expression<Func<TEntity, object>>[] includes);
+    Task<TEntity?> GetByIdWithIncludesAsync(Guid id, params Expression<Func<TEntity, object>>[] includes);
 
     Task<List<TEntity>> GetAllAsync();
 

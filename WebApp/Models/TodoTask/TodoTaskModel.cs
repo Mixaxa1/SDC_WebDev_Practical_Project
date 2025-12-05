@@ -5,7 +5,7 @@ namespace WebApp.Models.TodoTask
     public class TodoTaskModel : BaseModel
     {
         [JsonProperty("listid")]
-        public int ListId { get; set; }
+        public Guid ListId { get; set; }
         [JsonProperty("title")]
         public string Title { get; set; }
         [JsonProperty("description")]

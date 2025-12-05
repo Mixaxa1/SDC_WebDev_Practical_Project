@@ -12,15 +12,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Styles\**" />
+    <Content Remove="Styles\**" />
+    <EmbeddedResource Remove="Styles\**" />
+    <None Remove="Styles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\css\custom.css" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Styles\" />
   </ItemGroup>
 
 </Project>
