@@ -44,7 +44,7 @@ public class TodoTaskController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<TodoTaskModel>> GetById(int id)
+    public async Task<ActionResult<TodoTaskModel>> GetById(Guid id)
     {
         var task = await _taskDbService.GetByIdAsync(id);
 
@@ -92,14 +92,14 @@ public class TodoTaskController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, TodoTaskModel taskModel)
+    public async Task<IActionResult> Update(TodoTaskModel taskModel)
     {
-        if (id != taskModel.Id)
+        if (taskModel.Id != null)
         {
             return BadRequest();
         }
 
-        var task = await _taskDbService.GetByIdAsync(id);
+        var task = await _taskDbService.GetByIdAsync(taskModel.Id);
 
         if (task == null)
         {
@@ -116,7 +116,7 @@ public class TodoTaskController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var task = await _taskDbService.GetByIdAsync(id);
         if (task == null)

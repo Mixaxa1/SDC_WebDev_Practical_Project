@@ -21,7 +21,7 @@ public class ApiService<TModel>(IOptions<EndpointsOptions> options) : IApiServic
         response.EnsureSuccessStatusCode();
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(Guid id)
     {
         using var client = new HttpClient();
         var response = await client.DeleteAsync(new Uri(_baseRoute + $"{id}"));
@@ -45,7 +45,7 @@ public class ApiService<TModel>(IOptions<EndpointsOptions> options) : IApiServic
         return result;
     }
 
-    public async Task<TModel> GetByIdAsync(int id)
+    public async Task<TModel> GetByIdAsync(Guid id)
     {
         TModel result = null;
         using (var client = new HttpClient())
@@ -61,11 +61,11 @@ public class ApiService<TModel>(IOptions<EndpointsOptions> options) : IApiServic
         return result;
     }
 
-    public async Task UpdateAsync(int id, TModel model)
+    public async Task UpdateAsync(TModel model)
     {
         using (var client = new HttpClient())
         {
-            var response = await client.PutAsJsonAsync<TModel>(new Uri(_baseRoute + $"{id}"), model);
+            var response = await client.PutAsJsonAsync<TModel>(new Uri(_baseRoute + $"{model.Id}"), model);
 
             response.EnsureSuccessStatusCode();
         }

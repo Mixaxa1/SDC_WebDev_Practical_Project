@@ -25,7 +25,7 @@ namespace WebApp.Controllers
         }
 
         // GET: TodoTaskController/Details/5
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(Guid id)
         {
             var task = await _todoTaskApiService.GetByIdAsync(id);
 
@@ -33,7 +33,7 @@ namespace WebApp.Controllers
         }
 
         // GET: TodoTaskController/Create
-        public IActionResult Create(int id)
+        public IActionResult Create(Guid id)
         {
             var task = new CreateTodoTask
             {
@@ -62,7 +62,7 @@ namespace WebApp.Controllers
         }
 
         // GET: TodoTaskController/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             var task = await _todoTaskApiService.GetByIdAsync(id);
 
@@ -72,7 +72,7 @@ namespace WebApp.Controllers
         // POST: TodoTaskController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Edit(Guid id, IFormCollection collection)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace WebApp.Controllers
         }
 
         // GET: TodoTaskController/Delete/5
-        public async Task<IActionResult> Delete(int id, int listId)
+        public async Task<IActionResult> Delete(Guid id, int listId)
         {
             await _todoTaskApiService.DeleteAsync(id);
 
@@ -95,7 +95,7 @@ namespace WebApp.Controllers
         // POST: TodoTaskController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Delete(Guid id, IFormCollection collection)
         {
             try
             {
