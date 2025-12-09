@@ -1,4 +1,5 @@
 using Database;
+using Application;
 
 namespace WebApi;
 
@@ -11,7 +12,8 @@ internal static class Program
         // Add services to the container.
         builder.Services.AddControllersWithViews();
         builder.Services.AddDb();
-
+        builder.Services.AddMediatR();
+        
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
