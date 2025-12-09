@@ -2,8 +2,10 @@
 
 namespace WebApp.Models.TodoTask
 {
-    public class TodoTaskModel : BaseModel
+    public class TodoTaskModel
     {
+        [JsonProperty("id")]
+        public Guid Id { get; set; }
         [JsonProperty("listid")]
         public Guid ListId { get; set; }
         [JsonProperty("title")]
@@ -15,7 +17,7 @@ namespace WebApp.Models.TodoTask
         [JsonProperty("dueat")]
         public DateTime DueAt { get; set; }
         [JsonProperty("status")]
-        public int Status { get; set; }
+        public string Status { get; set; }
         [JsonProperty("tags")]
         public IEnumerable<string> Tags { get; set; }
     }

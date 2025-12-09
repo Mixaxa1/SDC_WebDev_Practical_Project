@@ -3,8 +3,10 @@ using WebApp.Models.TodoTask;
 
 namespace WebApp.Models.TodoList;
 
-public class TodoListModel : BaseModel
+public class TodoListModel
 {
+    [JsonProperty("id")]
+    public Guid Id { get; set; }
     [JsonProperty("title")]
     public string Title { get; set; }
 

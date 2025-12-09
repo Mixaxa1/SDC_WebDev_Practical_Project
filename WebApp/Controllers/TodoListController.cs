@@ -22,7 +22,7 @@ public class TodoListController : Controller
 
     public async Task<IActionResult> Details(Guid id)
     {
-         var list = await _todoListApiService.GetByIdWithTasksAsync(id);
+         var list = await _todoListApiService.GetByIdAsync(id, true);
 
         return View(list);
     }
@@ -51,16 +51,16 @@ public class TodoListController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(TodoListModel vm)
     {
-        var list = new TodoListModel
+        var list = new CreateTodoListModel
         {
             Id = vm.Id,
             Title = vm.Title,
             Description = vm.Description
         };
 
-        await _todoListApiService.UpdateAsync(list);
+        var result = await _todoListApiService.UpdateAsync(list);
 
-        return RedirectToAction("Index");
+        return RedirectToAction("Details", result);
     }
 
     public ActionResult Create()
@@ -69,16 +69,10 @@ public class TodoListController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateTodoList vm)
+    public async Task<IActionResult> Create(CreateTodoListModel vm)
     {
-        var list = new TodoListModel
-        {
-            Title = vm.Title,
-            Description = vm.Description
-        };
+        var result = await _todoListApiService.CreateAsync(vm);
 
-        await _todoListApiService.CreateAsync(list);
-
-        return RedirectToAction("Index");
+        return RedirectToAction("Details", result);
     }
 }

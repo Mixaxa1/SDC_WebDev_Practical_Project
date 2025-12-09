@@ -35,7 +35,7 @@ namespace WebApp.Controllers
         // GET: TodoTaskController/Create
         public IActionResult Create(Guid id)
         {
-            var task = new CreateTodoTask
+            var task = new CreateTodoTaskModel
             {
                 ListId = id
             };
@@ -46,27 +46,32 @@ namespace WebApp.Controllers
         // POST: TodoTaskController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateTodoTask vm)
+        public async Task<IActionResult> Create(CreateTodoTaskModel vm)
         {
-            var task = new TodoTaskModel
-            {
-                ListId = vm.ListId,
-                Title = vm.Title,
-                Description = vm.Description,
-                DueAt = vm.DueAt
-            };
+            var result = await _todoTaskApiService.CreateAsync(vm);
 
-            await _todoTaskApiService.CreateAsync(task);
-
-            return RedirectToAction("Details", "TodoList", new {id = vm.ListId});
+            return RedirectToAction("Details", result);
         }
 
         // GET: TodoTaskController/Edit/5
         public async Task<IActionResult> Edit(Guid id)
         {
-            var task = await _todoTaskApiService.GetByIdAsync(id);
+            /*var task = await _todoTaskApiService.GetByIdAsync(id);
 
-            return RedirectToAction("");
+            var editTask = new TodoTaskModel
+            {
+                Id = task.Id,
+                ListId = task.ListId,
+                Title = task.Title,
+                Description = task.Description,
+                CreatedAt = task.CreatedAt,
+                DueAt = task.DueAt,
+                Status = task.Status
+            };
+
+            return View(editTask);*/
+
+            return View(Details(id));
         }
 
         // POST: TodoTaskController/Edit/5

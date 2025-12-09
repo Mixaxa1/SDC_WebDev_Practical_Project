@@ -1,144 +1,75 @@
-﻿using Database;
-using Database.EntityServices.Interfaces;
-using Domain.Entities.List;
+﻿using Application.ListLogic.Commands.CreateList;
+using Application.ListLogic.Commands.DeleteList;
+using Application.ListLogic.Commands.UpdateList;
+using Application.ListLogic.Queries.GetAllLists;
+using Application.ListLogic.Queries.GetListById;
+using Application.ListLogic.RequestDto;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Models;
 
 namespace WebApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TodoListController : ControllerBase
+public class TodoListController : TodoController
 {
-    private readonly AppDbContext _context;
-    private readonly ITodoListDbService _dbService;
 
-    public TodoListController(AppDbContext context, ITodoListDbService todoListDbService)
+    public TodoListController(IMediator mediator)
+        : base(mediator)
     {
-        _context = context;
-        _dbService = todoListDbService;
     }
 
     [HttpPost]
-    public async Task<ActionResult> Create(TodoListModel listModel)
+    public async Task<IActionResult> Create([FromBody] CreateTodoListRequestDto dto)
     {
-        var newList = new TodoList()
+        var list = await Mediator.Send(new CreateTodoListCommand(dto));
+
+        if (list == null)
         {
-            Title = listModel.Title,
-            Description = listModel.Description,
-        };
+            return BadRequest();
+        }
 
-        await _dbService.CreateAsync(newList);
-        await _context.SaveChangesAsync();
-
-        return Ok();
+        return Ok(list);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<TodoListModel>> GetById(Guid id)
+    public async Task<IActionResult> GetById([FromRoute] Guid id, [FromQuery] bool withIncludes)
     {
-        var list = await _dbService.GetByIdAsync(id);
+        var list = await Mediator.Send(new GetTodoListByIdQuery(id, withIncludes));
 
         if (list == null)
         {
             return NotFound();
         }
 
-        var listModel = new TodoListModel()
-        {
-            Id = list.Id,
-            Title = list.Title,
-            Description = list.Description,
-        };
-
-        return listModel;
-    }
-
-    [HttpGet("withTasks/{id}")]
-    public async Task<ActionResult<TodoListModel>> GetByIdWithTasks(Guid id)
-    {
-        var list = await _dbService.GetByIdWithIncludesAsync(id, list => list.Tasks);
-
-        if (list == null)
-        {
-            return NotFound();
-        }
-
-        var tasks = new List<TodoTaskModel>();
-
-        foreach (var task in list.Tasks)
-        {
-            tasks.Add(new TodoTaskModel()
-            {
-                Id = task.Id,
-                Title = task.Title,
-                Description = task.Description,
-                CreatedAt = task.CreatedAt,
-                DueAt = task.DueAt,
-                Status = (int)task.Status
-            });
-        }
-
-        var listModel = new TodoListModel()
-        {
-            Id = list.Id,
-            Title = list.Title,
-            Description = list.Description,
-            Tasks = tasks
-        };
-
-        return listModel;
+        return Ok(list);
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TodoListModel>>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        var lists = await _dbService.GetAllAsync();
-        var modelLists = new List<TodoListModel>();
+        var lists = await Mediator.Send(new GetAllTodoListsQuery());
 
-        foreach (var list in lists)
-        {
-            modelLists.Add(new TodoListModel()
-            {
-                Id = list.Id,
-                Title = list.Title,
-                Description = list.Description,
-            });
-        }
-
-        return modelLists;
+        return Ok(lists);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(TodoListModel listModel)
+    [HttpPut]
+    public async Task<IActionResult> Update(CreateTodoListRequestDto dto)
     {
-        var listFromDb = await _dbService.GetByIdAsync(listModel.Id);
+        var list = await Mediator.Send(new UpdateTodoListCommand(dto));
 
-        if (listFromDb == null)
+        if (list == null)
         {
             return NotFound();
         }
 
-        listFromDb.Title = listModel.Title;
-        listFromDb.Description = listModel.Description;
-
-        _dbService.Update(listFromDb);
-        await _context.SaveChangesAsync();
-
-        return Ok();
+        return Ok(list);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var list = await _dbService.GetByIdAsync(id);
-        if (list == null)
-        {
-            return NotFound();
-        }
-
-        _dbService.Delete(list);
-        await _context.SaveChangesAsync();
+        await Mediator.Send(new DeleteTodoListCommand(id));
 
         return Ok();
     }
