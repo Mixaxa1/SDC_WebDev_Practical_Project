@@ -1,0 +1,27 @@
+﻿@using WebApp.Models.TodoTask
+
+@model TodoTaskModel
+
+@{
+	ViewBag.Title = "Delete task";
+}
+
+@section SubHeader {
+	<div class="div1">
+		<a asp-action="Details" asp-route-id="@Model.Id">Back</a>
+		<h2>@($"Delete {Model.Title}")</h2>
+	</div>
+}
+
+<body>
+	<div class="div1">
+		<p>Are you sure you want to delete task <strong>@Model.Title</strong>?</p>
+	</div>
+
+	<div class="div1">
+		<form asp-action="DeleteConfirm" asp-controller="TodoTask" asp-route-id="@Model.Id" method="post">
+			<input type="submit" value="Delete" />
+			<input type="hidden" name="listId" value="@Model.ListId" />
+		</form>
+	</div>
+</body>

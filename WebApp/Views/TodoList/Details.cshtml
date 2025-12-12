@@ -43,8 +43,7 @@
             {
                 @foreach (var task in Model.Tasks)
                 {
-                    @await Html.PartialAsync("_TaskListRowPartial", task)
-                    ;
+                    @await Html.PartialAsync("_TaskListRowPartial", task);
                 }
             }
         </tbody>

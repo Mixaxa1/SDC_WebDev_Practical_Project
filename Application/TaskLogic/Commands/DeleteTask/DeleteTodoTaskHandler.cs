@@ -9,18 +9,18 @@ using MediatR;
 
 namespace Application.TaskLogic.Commands.DeleteTask
 {
-    public class DeleteTaskHandler : IRequestHandler<DeleteTaskCommand> 
+    public class DeleteTodoTaskHandler : IRequestHandler<DeleteTodoTaskCommand> 
     {
         private readonly ITodoTaskDbService _todoTaskService;
         private readonly AppDbContext _dbContext;
 
-        public DeleteTaskHandler(ITodoTaskDbService todoTaskService, AppDbContext dbContext)
+        public DeleteTodoTaskHandler(ITodoTaskDbService todoTaskService, AppDbContext dbContext)
         {
             _todoTaskService = todoTaskService;
             _dbContext = dbContext;
         }
 
-        public async Task Handle(DeleteTaskCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteTodoTaskCommand request, CancellationToken cancellationToken)
         {
             var task = await _todoTaskService.GetByIdAsync(request.id);
 

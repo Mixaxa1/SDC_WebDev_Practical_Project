@@ -1,0 +1,22 @@
+﻿@using WebApp.Models.TodoList
+@model TodoListModel
+
+<header>
+	<a asp-action="Index">Back</a>
+</header>
+
+<body>
+	<div class="div1">
+		<h2>@($"Delete {Model.Title}?")</h2>
+	</div>
+
+	<div class="div1">
+		<p>Are you sure you want to delete list <strong>@Model.Title</strong>?</p>
+	</div>
+
+	<div class="div1">
+		<form asp-action="DeleteConfirm" asp-controller="TodoList" asp-route-id="@Model.Id" method="post">
+			<input type="submit" value="Delete" />
+		</form>
+	</div>
+</body>

@@ -4,6 +4,7 @@ using Database.EntityServices;
 using Database.EntityServices.Interfaces;
 using Domain.Entities.Task;
 using MediatR;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Application.TaskLogic.Commands.CreateTask
 {
@@ -46,6 +47,7 @@ namespace Application.TaskLogic.Commands.CreateTask
             return new TodoTaskResponceDto()
             {
                 Id = task.Id,
+                ListId = list.Id,
                 Title = task.Title,
                 Description = task.Description,
                 CreatedAt = task.CreatedAt,

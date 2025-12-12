@@ -7,5 +7,5 @@ using MediatR;
 
 namespace Application.TaskLogic.Commands.DeleteTask
 {
-    public record DeleteTaskCommand(Guid id) : IRequest;
+    public record DeleteTodoTaskCommand(Guid id) : IRequest;
 }

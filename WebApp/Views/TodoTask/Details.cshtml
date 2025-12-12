@@ -15,12 +15,17 @@
     <div class="div1">
         <ul>
             <li class="liHor">
-                <a class="btn" asp-action="Edit" asp-route-id="@Model.Id" method="post">Edit list</a>
+                <a class="btn" asp-action="Edit" asp-route-id="@Model.Id" method="post">Edit task</a>
             </li>
             <li class="liHor">
-                <a class="btn" asp-action="Delete" asp-route-id="@Model.Id" asp-route-listId="@Model.ListId">Delete list</a>
+                <a class="btn" asp-action="Delete" asp-route-id="@Model.Id" asp-route-listId="@Model.ListId">Delete task</a>
             </li>
         </ul>
+    </div>
+
+    <div class="div1">
+        <h2>Due at</h2>
+        <P>@Model.DueAt</P>
     </div>
 
     <div class="div1">

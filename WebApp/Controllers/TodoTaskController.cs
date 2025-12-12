@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
 using WebApp.Models.TodoList;
@@ -22,6 +23,7 @@ namespace WebApp.Controllers
         public ActionResult Index()
         {
             return View();
+
         }
 
         // GET: TodoTaskController/Details/5
@@ -35,6 +37,7 @@ namespace WebApp.Controllers
         // GET: TodoTaskController/Create
         public IActionResult Create(Guid id)
         {
+
             var task = new CreateTodoTaskModel
             {
                 ListId = id
@@ -50,66 +53,64 @@ namespace WebApp.Controllers
         {
             var result = await _todoTaskApiService.CreateAsync(vm);
 
-            return RedirectToAction("Details", result);
+            return RedirectToAction("Details", new { id = result.Id });
         }
 
         // GET: TodoTaskController/Edit/5
         public async Task<IActionResult> Edit(Guid id)
         {
-            /*var task = await _todoTaskApiService.GetByIdAsync(id);
+            var task = await _todoTaskApiService.GetByIdAsync(id);
 
-            var editTask = new TodoTaskModel
+            var editTask = new CreateTodoTaskModel
             {
                 Id = task.Id,
-                ListId = task.ListId,
                 Title = task.Title,
                 Description = task.Description,
-                CreatedAt = task.CreatedAt,
                 DueAt = task.DueAt,
                 Status = task.Status
             };
 
-            return View(editTask);*/
-
-            return View(Details(id));
+            return View(editTask);
         }
 
         // POST: TodoTaskController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Guid id, IFormCollection collection)
+        public async Task<IActionResult> Edit(CreateTodoTaskModel vm)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var result = await _todoTaskApiService.UpdateAsync(vm);
+
+            return RedirectToAction("Details", new { id = result.Id });
         }
 
         // GET: TodoTaskController/Delete/5
-        public async Task<IActionResult> Delete(Guid id, int listId)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            await _todoTaskApiService.DeleteAsync(id);
+            var task = await _todoTaskApiService.GetByIdAsync(id);
+            if (task == null)
+            {
+                return NotFound();
+            }
 
-            return RedirectToAction("Details", "TodoList", listId);
+            var listView = new TodoTaskModel
+            {
+                Id = task.Id,
+                ListId = task.ListId,
+                Title = task.Title,
+                Description = task.Description
+            };
+
+            return View(listView);
         }
 
         // POST: TodoTaskController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Guid id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirm(Guid id, Guid listId)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            await _todoTaskApiService.DeleteAsync(id);
+
+            return RedirectToAction("Details", "TodoList", new { id = listId });
         }
     }
 }
