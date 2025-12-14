@@ -24,8 +24,10 @@
     </div>
 
     <div class="div1">
-        <h2>Due at</h2>
-        <P>@Model.DueAt</P>
+        <h3>Timeline</h3>
+        @{
+            <p>@Model.CreatedAt - @Model.DueAt</p>
+        }
     </div>
 
     <div class="div1">

@@ -1,7 +1,16 @@
 ﻿@using WebApp.Models.TodoTask
 @model TodoTaskModel
 
-<tr>
+@{
+	var deadlineStatus = "onTime";
+
+	if (Model.DueAt <= DateTime.Now)
+	{
+		deadlineStatus = "overDue";
+	}
+}
+
+<tr class="tr-@deadlineStatus">
 	<td>@Model.Title</td>
 	<td>@Model.Description</td>
 	<td>@Model.CreatedAt</td>
