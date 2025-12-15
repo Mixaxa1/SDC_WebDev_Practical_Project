@@ -1,13 +1,16 @@
 ﻿@using WebApp.Models.TodoTask
 @model CreateTodoTaskModel
-
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
 <body>
-	<h2>Create task</h2>
 	<div class="div1">
-		<a asp-controller="TodoList" asp-action="Details" asp-route-id="@Model.ListId">Back</a>
+		<a class="btn" asp-action="Details" asp-route-id="@Model.Id">Back</a>
 	</div>
 
-	<form asp-action="Create" asp-controller="TodoTask" method="post">
+	<form asp-action="Edit" asp-controller="TodoTask" asp-route-id="@Model.Id" method="post">
 		<div class="div1">
 			@Html.LabelFor(m => m.Title)
 			@Html.TextBoxFor(m => m.Title)
@@ -23,6 +26,7 @@
 		<div class="div1">
 			<input type="submit" />
 		</div>
+
 		<input type="hidden" asp-for="ListId" value="@Model.ListId" />
 	</form>
 </body>

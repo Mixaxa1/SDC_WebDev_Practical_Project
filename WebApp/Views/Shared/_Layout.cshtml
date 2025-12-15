@@ -14,11 +14,13 @@
         </ul>
     </nav>
 
+    <div class="div1">
+        @RenderSection("SubHeader", false)
+    </div>
+
     <main>
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
+        <div class="div1">
+            @RenderBody()
         </div>
     </main>
 

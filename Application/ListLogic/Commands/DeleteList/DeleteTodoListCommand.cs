@@ -7,5 +7,5 @@ using MediatR;
 
 namespace Application.ListLogic.Commands.DeleteList
 {
-    public record DeleteTodoListCommand(Guid id) : IRequest;
+    public record DeleteTodoListCommand(Guid Id) : IRequest;
 }

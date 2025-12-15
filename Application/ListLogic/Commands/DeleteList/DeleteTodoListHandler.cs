@@ -1,9 +1,10 @@
 ﻿using Database;
 using Database.EntityServices.Interfaces;
+using MediatR;
 
 namespace Application.ListLogic.Commands.DeleteList
 {
-    public class DeleteTodoListHandler
+    public class DeleteTodoListHandler : IRequestHandler<DeleteTodoListCommand>
     {
         private ITodoListDbService _todoListService;
         private AppDbContext _DbContext;
@@ -16,7 +17,7 @@ namespace Application.ListLogic.Commands.DeleteList
 
         public async Task Handle(DeleteTodoListCommand request, CancellationToken cancellationToken)
         {
-            var list = await _todoListService.GetByIdAsync(request.id);
+            var list = await _todoListService.GetByIdAsync(request.Id);
 
             if (list == null)
             {

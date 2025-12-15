@@ -1,5 +1,6 @@
 ﻿using Application.ListLogic.Commands.DeleteList;
 using Application.TaskLogic.Commands.CreateTask;
+using Application.TaskLogic.Commands.DeleteTask;
 using Application.TaskLogic.Commands.UpdateTask;
 using Application.TaskLogic.Queries.GetTaskById;
 using Application.TaskLogic.RequestDto;
@@ -60,7 +61,7 @@ public class TodoTaskController : TodoController
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        await Mediator.Send(new DeleteTodoListCommand(id));
+        await Mediator.Send(new DeleteTodoTaskCommand(id));
 
         return Ok();
     }
