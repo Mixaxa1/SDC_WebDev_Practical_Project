@@ -1,36 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Database.EntityServices.Interfaces;
-using Database;
+﻿using Application.Abstraction.Repositories;
 using MediatR;
 
 namespace Application.TaskLogic.Commands.DeleteTask
 {
     public class DeleteTodoTaskHandler : IRequestHandler<DeleteTodoTaskCommand> 
     {
-        private readonly ITodoTaskDbService _todoTaskService;
-        private readonly AppDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteTodoTaskHandler(ITodoTaskDbService todoTaskService, AppDbContext dbContext)
+        public DeleteTodoTaskHandler(IUnitOfWork unitOfWork)
         {
-            _todoTaskService = todoTaskService;
-            _dbContext = dbContext;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(DeleteTodoTaskCommand request, CancellationToken cancellationToken)
         {
-            var task = await _todoTaskService.GetByIdAsync(request.id);
+            var task = await _unitOfWork.TodoTaskRepository.GetByIdAsync(request.id);
 
             if (task == null)
             {
                 return;
             }
 
-            _todoTaskService.Delete(task);
-            _dbContext.SaveChanges();
+            _unitOfWork.TodoTaskRepository.Delete(task);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

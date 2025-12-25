@@ -1,11 +1,11 @@
 using System.Linq.Expressions;
-using Database.EntityServices.Interfaces;
+using Application.Abstraction.Repositories;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Database.EntityServices;
+namespace Database.Repositories;
 
-public class EntityDbService<TEntity>(AppDbContext dbContext) : IEntityDbService<TEntity>
+public class Repository<TEntity>(AppDbContext dbContext) : IRepository<TEntity>
     where TEntity : Entity
 {
     protected AppDbContext dbContext = dbContext;

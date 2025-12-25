@@ -11,6 +11,8 @@ internal static class Program
 
         // Add services to the container.
         builder.Services.AddControllersWithViews();
+
+        builder.Services.ConfigureProjectsOptions();
         builder.Services.AddDb();
         builder.Services.AddMediatR();
         

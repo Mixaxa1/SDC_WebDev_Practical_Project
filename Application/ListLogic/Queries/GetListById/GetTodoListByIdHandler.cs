@@ -1,7 +1,6 @@
-﻿using Application.ListLogic.ResponseDto;
+﻿using Application.Abstraction.Repositories;
+using Application.ListLogic.ResponseDto;
 using Application.TaskLogic.ResponceDto;
-using Database;
-using Database.EntityServices.Interfaces;
 using Domain.Entities.List;
 using MediatR;
 
@@ -9,26 +8,24 @@ namespace Application.ListLogic.Queries.GetListById
 {
     public class GetTodoListByIdHandler : IRequestHandler<GetTodoListByIdQuery, TodoListResponceDto?>
     {
-        private readonly ITodoListDbService _todoListService;
-        private readonly AppDbContext _appDbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetTodoListByIdHandler(ITodoListDbService todoListService, AppDbContext appDbContext)
+        public GetTodoListByIdHandler(IUnitOfWork unitOfWork)
         {
-            _todoListService = todoListService;
-            _appDbContext = appDbContext;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<TodoListResponceDto?> Handle(GetTodoListByIdQuery request, CancellationToken cancellationToken)
         {
-            TodoList list;
+            TodoList? list;
 
             if (request.withIncludes)
             {
-                list = await _todoListService.GetByIdWithIncludesAsync(request.id, x => x.Tasks);
+                list = await _unitOfWork.TodoListRepository.GetByIdWithIncludesAsync(request.id, x => x.Tasks);
             }
             else
             {
-                list = await _todoListService.GetByIdAsync(request.id);
+                list = await _unitOfWork.TodoListRepository.GetByIdAsync(request.id);
             }
 
             if (list == null)

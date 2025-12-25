@@ -1,6 +1,5 @@
-﻿using Application.ListLogic.ResponseDto;
-using Database;
-using Database.EntityServices.Interfaces;
+﻿using Application.Abstraction.Repositories;
+using Application.ListLogic.ResponseDto;
 using Domain.Entities.List;
 using MediatR;
 
@@ -8,21 +7,19 @@ namespace Application.ListLogic.Commands.CreateList
 {
     public class CreateTodoListHandler : IRequestHandler<CreateTodoListCommand, TodoListResponceDto?>
     {
-        private readonly ITodoListDbService _todoListService;
-        private readonly AppDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateTodoListHandler(ITodoListDbService todoListService, AppDbContext dbContext)
+        public CreateTodoListHandler(IUnitOfWork unitOfWork)
         {
-            _todoListService = todoListService;
-            _dbContext = dbContext;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<TodoListResponceDto?> Handle(CreateTodoListCommand request, CancellationToken cancellationToken)
         {
             var list = new TodoList() { Id = Guid.NewGuid(), Title = request.dto.Title, Description = request.dto.Description };
 
-            await _todoListService.CreateAsync(list);
-            await _dbContext.SaveChangesAsync();
+            await _unitOfWork.TodoListRepository.CreateAsync(list);
+            await _unitOfWork.SaveChangesAsync();
 
             return new TodoListResponceDto() 
             { 

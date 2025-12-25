@@ -1,31 +1,28 @@
-﻿using Database;
-using Database.EntityServices.Interfaces;
+﻿using Application.Abstraction.Repositories;
 using MediatR;
 
 namespace Application.ListLogic.Commands.DeleteList
 {
     public class DeleteTodoListHandler : IRequestHandler<DeleteTodoListCommand>
     {
-        private ITodoListDbService _todoListService;
-        private AppDbContext _DbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteTodoListHandler(ITodoListDbService todoListService, AppDbContext dbContext)
+        public DeleteTodoListHandler(IUnitOfWork unitOfWork)
         {
-            _todoListService = todoListService;
-            _DbContext = dbContext;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(DeleteTodoListCommand request, CancellationToken cancellationToken)
         {
-            var list = await _todoListService.GetByIdAsync(request.Id);
+            var list = await _unitOfWork.TodoListRepository.GetByIdAsync(request.Id);
 
             if (list == null)
             {
                 return;
             }
 
-            _todoListService.Delete(list);
-            _DbContext.SaveChanges();
+            _unitOfWork.TodoListRepository.Delete(list);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }
