@@ -1,0 +1,7 @@
+using Domain.Entities.List;
+
+namespace Application.Abstraction.Repositories;
+
+public interface ITodoListRepository : IRepository<TodoList>
+{
+}

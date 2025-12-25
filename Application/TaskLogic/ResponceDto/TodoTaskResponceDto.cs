@@ -1,6 +1,4 @@
-﻿using Domain.Entities.Task;
-
-namespace Application.TaskLogic.ResponceDto
+﻿namespace Application.TaskLogic.ResponceDto
 {
     public class TodoTaskResponceDto
     {

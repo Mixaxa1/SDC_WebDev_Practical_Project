@@ -1,25 +1,22 @@
-﻿using Application.ListLogic.ResponseDto;
+﻿using Application.Abstraction.Repositories;
+using Application.ListLogic.ResponseDto;
 using Application.TaskLogic.ResponceDto;
-using Database;
-using Database.EntityServices.Interfaces;
 using MediatR;
 
 namespace Application.ListLogic.Commands.UpdateList
 {
     public class UpdateTodoListHandler : IRequestHandler<UpdateTodoListCommand, TodoListResponceDto>
     {
-        private readonly ITodoListDbService _todoListService;
-        private readonly AppDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateTodoListHandler(ITodoListDbService todoListService, AppDbContext dbContext)
+        public UpdateTodoListHandler(IUnitOfWork unitOfWork)
         {
-            _todoListService = todoListService;
-            _dbContext = dbContext;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<TodoListResponceDto?> Handle(UpdateTodoListCommand request, CancellationToken cancellationToken) 
         {
-            var list = await _todoListService.GetByIdAsync(request.dto.Id);
+            var list = await _unitOfWork.TodoListRepository.GetByIdAsync(request.dto.Id);
 
             if (list == null)
             {
@@ -29,8 +26,8 @@ namespace Application.ListLogic.Commands.UpdateList
             list.Title = request.dto.Title;
             list.Description = request.dto.Description;
 
-            _todoListService.Update(list);
-            _dbContext.SaveChanges();
+            _unitOfWork.TodoListRepository.Update(list);
+            await _unitOfWork.SaveChangesAsync();
 
             var result = new TodoListResponceDto()
             {

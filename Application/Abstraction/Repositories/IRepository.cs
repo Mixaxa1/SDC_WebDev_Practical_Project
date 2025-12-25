@@ -1,9 +1,8 @@
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Domain.Entities;
 
-namespace Database.EntityServices.Interfaces;
-
-public interface IEntityDbService<TEntity>
+namespace Application.Abstraction.Repositories;
+public interface IRepository<TEntity>
     where TEntity : Entity
 {
     Task CreateAsync(TEntity entity);

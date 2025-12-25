@@ -1,7 +1,7 @@
+using Database;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.Options.OptionsSetups;
+namespace WebApi.OptionsSetups;
 
 public class DbOptionsSetup(IConfiguration configuration) : IConfigureOptions<DbOptions>
 {

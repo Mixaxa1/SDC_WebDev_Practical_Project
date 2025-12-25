@@ -1,29 +1,22 @@
-﻿using Application.TaskLogic.ResponceDto;
-using Database;
-using Database.EntityServices;
-using Database.EntityServices.Interfaces;
+﻿using Application.Abstraction.Repositories;
+using Application.TaskLogic.ResponceDto;
 using Domain.Entities.Task;
 using MediatR;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Application.TaskLogic.Commands.CreateTask
 {
     public class CreateTodoTaskHandler : IRequestHandler<CreateTodoTaskCommand, TodoTaskResponceDto?>
     {
-        private readonly ITodoListDbService _todoListDbService;
-        private readonly ITodoTaskDbService _todoTaskService;
-        private readonly AppDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateTodoTaskHandler(ITodoListDbService todoListDbService, ITodoTaskDbService todoTaskService, AppDbContext dbContext)
+        public CreateTodoTaskHandler(IUnitOfWork unitOfWork)
         {
-            _todoListDbService = todoListDbService;
-            _todoTaskService = todoTaskService;
-            _dbContext = dbContext;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<TodoTaskResponceDto?> Handle(CreateTodoTaskCommand request, CancellationToken cancellationToken)
         {
-            var list = await _todoListDbService.GetByIdAsync(request.dto.ListId);
+            var list = await _unitOfWork.TodoListRepository.GetByIdAsync(request.dto.ListId);
 
             if (list == null)
             {
@@ -41,8 +34,8 @@ namespace Application.TaskLogic.Commands.CreateTask
                 Status = TaskState.NotStarted
             };
 
-            await _todoTaskService.CreateAsync(task);
-            await _dbContext.SaveChangesAsync();
+            await _unitOfWork.TodoTaskRepository.CreateAsync(task);
+            await _unitOfWork.SaveChangesAsync();
 
             return new TodoTaskResponceDto()
             {

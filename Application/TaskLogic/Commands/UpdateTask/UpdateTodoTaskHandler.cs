@@ -1,31 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.TaskLogic.ResponceDto;
-using Database.EntityServices.Interfaces;
-using Database;
+﻿using Application.TaskLogic.ResponceDto;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Domain.Entities.Task;
+using Application.Abstraction.Repositories;
 
 namespace Application.TaskLogic.Commands.UpdateTask
 {
     public class UpdateTodoTaskHandler : IRequestHandler<UpdateTodoTaskCommand, TodoTaskResponceDto?>
     {
-        private readonly ITodoTaskDbService _todoTaskService;
-        private readonly AppDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateTodoTaskHandler(ITodoTaskDbService todoTaskService, AppDbContext dbContext)
+        public UpdateTodoTaskHandler(IUnitOfWork unitOfWork)
         {
-            _todoTaskService = todoTaskService;
-            _dbContext = dbContext;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<TodoTaskResponceDto?> Handle(UpdateTodoTaskCommand command, CancellationToken cancellationToken)
         {
-            var task = await _todoTaskService.GetByIdAsync(command.dto.Id);
+            var task = await _unitOfWork.TodoTaskRepository.GetByIdAsync(command.dto.Id);
 
             TaskState status;
             if (task == null || Enum.TryParse<TaskState>(command.dto.Status, true, out status))
@@ -38,8 +29,8 @@ namespace Application.TaskLogic.Commands.UpdateTask
             task.DueAt = command.dto.DueAt;
             task.Status = status;
 
-            _todoTaskService.Update(task);
-            await _dbContext.SaveChangesAsync();
+            _unitOfWork.TodoTaskRepository.Update(task);
+            await _unitOfWork.SaveChangesAsync();
 
             return new TodoTaskResponceDto()
             {

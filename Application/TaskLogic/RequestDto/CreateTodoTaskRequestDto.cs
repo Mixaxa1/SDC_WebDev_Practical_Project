@@ -1,6 +1,4 @@
-﻿using Domain.Entities.Task;
-
-namespace Application.TaskLogic.RequestDto
+﻿namespace Application.TaskLogic.RequestDto
 {
     public class CreateTodoTaskRequestDto
     {

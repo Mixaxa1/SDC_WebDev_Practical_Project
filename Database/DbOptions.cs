@@ -1,4 +1,4 @@
-namespace Infrastructure.Options;
+namespace Database;
 
 public class DbOptions
 {

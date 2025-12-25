@@ -1,24 +1,21 @@
-﻿using Application.ListLogic.ResponseDto;
-using Database;
-using Database.EntityServices.Interfaces;
+﻿using Application.Abstraction.Repositories;
+using Application.ListLogic.ResponseDto;
 using MediatR;
 
 namespace Application.ListLogic.Queries.GetAllLists
 {
     public class GetAllTodoListsHandler : IRequestHandler<GetAllTodoListsQuery, IEnumerable<TodoListResponceDto?>>
     {
-        private readonly ITodoListDbService _todoListService;
-        private readonly AppDbContext _appDbContext;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetAllTodoListsHandler(ITodoListDbService todoListDbService, AppDbContext appDbContext)
+        public GetAllTodoListsHandler(IUnitOfWork unitOfWork)
         {
-            _appDbContext = appDbContext;
-            _todoListService = todoListDbService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IEnumerable<TodoListResponceDto?>> Handle(GetAllTodoListsQuery request, CancellationToken cancellationToken)
         {
-            var lists = await _todoListService.GetAllAsync();
+            var lists = await _unitOfWork.TodoListRepository.GetAllAsync();
 
             var results = new List<TodoListResponceDto>();
             foreach (var list in lists)
