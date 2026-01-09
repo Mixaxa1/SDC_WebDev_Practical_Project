@@ -10,12 +10,15 @@ namespace Database.Repositories
     public class UnitOfWork(
         AppDbContext dbContext,
         ITodoListRepository todoListRepository,
-        ITodoTaskRepository todoTaskRepository
+        ITodoTaskRepository todoTaskRepository,
+        ITagRepository tagRepository
         ) : IUnitOfWork
     {
         public ITodoListRepository TodoListRepository => todoListRepository;
 
         public ITodoTaskRepository TodoTaskRepository => todoTaskRepository;
+
+        public ITagRepository TagRepository => tagRepository;
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken)
         {

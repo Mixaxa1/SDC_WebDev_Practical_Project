@@ -1,9 +1,5 @@
 ﻿using Domain.Entities.List;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Entities.Tags;
 
 namespace Domain.Entities.Task
 {
@@ -16,6 +12,6 @@ namespace Domain.Entities.Task
         public DateTime CreatedAt { get; set; }
         public DateTime DueAt { get; set; }
         public TaskState Status { get; set; }
-        public ICollection<Tag>? Tags { get; set; }
+        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

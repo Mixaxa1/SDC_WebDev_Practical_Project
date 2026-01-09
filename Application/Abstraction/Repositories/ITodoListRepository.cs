@@ -4,4 +4,5 @@ namespace Application.Abstraction.Repositories;
 
 public interface ITodoListRepository : IRepository<TodoList>
 {
+    Task<TodoList?> GetByIdWithTasksAndTagsAsync(Guid id);
 }

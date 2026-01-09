@@ -20,6 +20,7 @@ public static class ConfigureServices
 
         services.AddScoped <ITodoListRepository, TodoListRepository>();
         services.AddScoped<ITodoTaskRepository, TodoTaskRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

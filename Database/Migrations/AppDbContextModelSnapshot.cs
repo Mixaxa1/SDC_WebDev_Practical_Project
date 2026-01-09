@@ -41,26 +41,17 @@ namespace Database.Migrations
                     b.ToTable("TodoLists");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Task.Tag", b =>
+            modelBuilder.Entity("Domain.Entities.Tags.Tag", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TodoTaskId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TodoTaskId");
 
                     b.ToTable("Tags");
                 });
@@ -98,11 +89,19 @@ namespace Database.Migrations
                     b.ToTable("TodoTasks");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Task.Tag", b =>
+            modelBuilder.Entity("TagTodoTask", b =>
                 {
-                    b.HasOne("Domain.Entities.Task.TodoTask", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("TodoTaskId");
+                    b.Property<Guid>("TagsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TodoTasksId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("TagsId", "TodoTasksId");
+
+                    b.HasIndex("TodoTasksId");
+
+                    b.ToTable("TagTodoTask");
                 });
 
             modelBuilder.Entity("Domain.Entities.Task.TodoTask", b =>
@@ -116,14 +115,24 @@ namespace Database.Migrations
                     b.Navigation("List");
                 });
 
+            modelBuilder.Entity("TagTodoTask", b =>
+                {
+                    b.HasOne("Domain.Entities.Tags.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Task.TodoTask", null)
+                        .WithMany()
+                        .HasForeignKey("TodoTasksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Entities.List.TodoList", b =>
                 {
                     b.Navigation("Tasks");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Task.TodoTask", b =>
-                {
-                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,8 @@
-﻿namespace Application.TaskLogic.RequestDto
+﻿using Application.TagLogic.RequestDto;
+using Application.TagLogic.ResponceDto;
+using Domain.Entities.Tags;
+
+namespace Application.TaskLogic.RequestDto
 {
     public class CreateTodoTaskRequestDto
     {
@@ -8,5 +12,6 @@
         public string Description { get; set; }
         public DateTime DueAt { get; set; }
         public string? Status { get; set; }
+        public ICollection<TagRequestDto> Tags { get; set; } = new List<TagRequestDto>();
     }
 }

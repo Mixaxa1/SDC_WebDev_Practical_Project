@@ -45,4 +45,9 @@ public class Repository<TEntity>(AppDbContext dbContext) : IRepository<TEntity>
     {
         return await includes.Aggregate(dbSet.AsQueryable(), (c, i) => c.Include(i)).FirstOrDefaultAsync(x => x.Id == id);
     }
+
+    public Task<List<TEntity>> GetNByExpression(Expression<Func<TEntity, bool>> expression, int take)
+    {
+        return dbSet.Where(expression).Take(take).ToListAsync();
+    }
 }

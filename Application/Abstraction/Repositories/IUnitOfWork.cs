@@ -10,6 +10,7 @@ namespace Application.Abstraction.Repositories
     {
         ITodoListRepository TodoListRepository { get; }
         ITodoTaskRepository TodoTaskRepository { get; }
+        ITagRepository TagRepository { get; }
 
         public Task SaveChangesAsync(CancellationToken cancellationToken = default);
     }

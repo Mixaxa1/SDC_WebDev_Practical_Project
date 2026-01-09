@@ -1,4 +1,7 @@
-﻿namespace Application.TaskLogic.ResponceDto
+﻿using Application.TagLogic.ResponceDto;
+using Domain.Entities.Tags;
+
+namespace Application.TaskLogic.ResponceDto
 {
     public class TodoTaskResponceDto
     {
@@ -9,5 +12,6 @@
         public DateTime CreatedAt { get; set; }
         public DateTime DueAt { get; set; }
         public string Status { get; set; }
+        public ICollection<TagResponceDto> Tags { get; set; } = new List<TagResponceDto>();
     }
 }

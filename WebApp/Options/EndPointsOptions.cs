@@ -8,4 +8,5 @@ public class EndpointsOptions
 
     public required TodoListEndpoints ListEndpoints { get; init; }
     public required TodoTaskEndpoints TaskEndpoints { get; init; }
+    public required TagEndpoints TagEndpoints { get; init; }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using WebApp.Models.TaskTag;
 
 namespace WebApp.Models.TodoTask
 {
@@ -29,6 +30,6 @@ namespace WebApp.Models.TodoTask
         public string Status { get; set; }
 
         [JsonProperty("tags")]
-        public IEnumerable<string> Tags { get; set; }
+        public IEnumerable<TagModel> Tags { get; set; }
     }
 }

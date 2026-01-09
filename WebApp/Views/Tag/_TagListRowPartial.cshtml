@@ -1,0 +1,11 @@
+@using WebApp.Models.TaskTag
+@model TagModel
+
+<tr>
+
+	<td>@Model.Title</td>
+
+	<td>
+		<a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+	</td>
+</tr>

@@ -2,6 +2,8 @@
 using MediatR;
 using Domain.Entities.Task;
 using Application.Abstraction.Repositories;
+using Application.TagLogic.ResponceDto;
+using Domain.Entities.Tags;
 
 namespace Application.TaskLogic.Commands.UpdateTask
 {
@@ -16,7 +18,7 @@ namespace Application.TaskLogic.Commands.UpdateTask
 
         public async Task<TodoTaskResponceDto?> Handle(UpdateTodoTaskCommand command, CancellationToken cancellationToken)
         {
-            var task = await _unitOfWork.TodoTaskRepository.GetByIdAsync(command.dto.Id);
+            var task = await _unitOfWork.TodoTaskRepository.GetByIdWithIncludesAsync(command.dto.Id, x => x.Tags);
 
             TaskState status;
             if (task == null || Enum.TryParse<TaskState>(command.dto.Status, true, out status))
@@ -29,10 +31,24 @@ namespace Application.TaskLogic.Commands.UpdateTask
             task.DueAt = command.dto.DueAt;
             task.Status = status;
 
+            var tags = new List<Tag>();
+            Tag dbTag;
+            foreach (var tag in command.dto.Tags)
+            {
+                dbTag = await _unitOfWork.TagRepository.GetByIdAsync(tag.Id);
+                if (dbTag != null)
+                {
+                    tags.Add(dbTag);
+                }
+            }
+
+            task.Tags = tags;
+
+
             _unitOfWork.TodoTaskRepository.Update(task);
             await _unitOfWork.SaveChangesAsync();
 
-            return new TodoTaskResponceDto()
+            var result = new TodoTaskResponceDto()
             {
                 Id = task.Id,
                 ListId = task.ListId,
@@ -41,7 +57,19 @@ namespace Application.TaskLogic.Commands.UpdateTask
                 CreatedAt = task.CreatedAt,
                 DueAt = task.DueAt,
                 Status = task.Status.ToString(),
+                Tags = new List<TagResponceDto>()
             };
+
+            foreach (var tag in task.Tags)
+            {
+                result.Tags.Add(new TagResponceDto()
+                {
+                    Id = tag.Id,
+                    Title = tag.Title
+                });
+            }
+
+            return result;
         } 
     }
 }

@@ -1,4 +1,5 @@
 using Domain.Entities.List;
+using Domain.Entities.Tags;
 using Domain.Entities.Task;
 using Microsoft.EntityFrameworkCore;
 
