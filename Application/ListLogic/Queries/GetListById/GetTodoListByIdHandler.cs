@@ -1,5 +1,6 @@
 ﻿using Application.Abstraction.Repositories;
 using Application.ListLogic.ResponseDto;
+using Application.TagLogic.ResponceDto;
 using Application.TaskLogic.ResponceDto;
 using Domain.Entities.List;
 using MediatR;
@@ -21,7 +22,7 @@ namespace Application.ListLogic.Queries.GetListById
 
             if (request.withIncludes)
             {
-                list = await _unitOfWork.TodoListRepository.GetByIdWithIncludesAsync(request.id, x => x.Tasks);
+                list = await _unitOfWork.TodoListRepository.GetByIdWithTasksAndTagsAsync(request.id);
             }
             else
             {
@@ -41,11 +42,12 @@ namespace Application.ListLogic.Queries.GetListById
                 Tasks = new List<TodoTaskResponceDto>()
             };
 
+            TodoTaskResponceDto resultTask;
             if (request.withIncludes)
             {
                 foreach (var task in list.Tasks)
                 {
-                    result.Tasks.Add(new TodoTaskResponceDto()
+                    resultTask = new TodoTaskResponceDto()
                     {
                         Id = task.Id,
                         ListId = task.ListId,
@@ -54,7 +56,19 @@ namespace Application.ListLogic.Queries.GetListById
                         CreatedAt = task.CreatedAt,
                         DueAt = task.DueAt,
                         Status = task.Status.ToString(),
-                    });
+                        Tags = new List<TagResponceDto>()
+                    };
+
+                    foreach (var tag in task.Tags)
+                    {
+                        resultTask.Tags.Add(new TagResponceDto()
+                        {
+                            Id = tag.Id,
+                            Title = tag.Title
+                        });
+                    }
+
+                    result.Tasks.Add(resultTask);
                 }
             }
 

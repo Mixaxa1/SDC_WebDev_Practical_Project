@@ -18,4 +18,6 @@ public interface IRepository<TEntity>
     TEntity Update(TEntity entity);
 
     void Delete(TEntity entity);
+
+    Task<List<TEntity>> GetNByExpression(Expression<Func<TEntity, bool>> expression, int take);
 }

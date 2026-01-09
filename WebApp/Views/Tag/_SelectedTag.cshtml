@@ -1,0 +1,12 @@
+﻿@using WebApp.ViewModels
+@model SelectedTagViewModel
+
+<span class="tag" data-tag-id="@Model.Id">
+    @Model.Title
+
+    <button type="button" onclick="removeTag('@Model.Id')">×</button>
+
+    <input type="hidden" name="SelectedTags.Index" value="@Model.Index" />
+    <input type="hidden" name="SelectedTags[@Model.Index].Id" value="@Model.Id" />
+    <input type="hidden" name="SelectedTags[@Model.Index].Title" value="@Model.Title" />
+</span>

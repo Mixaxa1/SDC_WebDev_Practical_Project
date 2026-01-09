@@ -33,9 +33,9 @@ public class TodoTaskController : TodoController
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id, [FromQuery] bool withIncludes)
     {
-        var task = await Mediator.Send(new GetTaskByIdQuery(id));
+        var task = await Mediator.Send(new GetTaskByIdQuery(id, withIncludes));
 
         if (task == null)
         {

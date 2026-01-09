@@ -1,5 +1,5 @@
-﻿@using WebApp.Models.TodoTask
-@model CreateTodoTaskModel
+﻿@using WebApp.ViewModels
+@model CreateTodoTaskViewModel
 
 <body>
 	<h2>Create task</h2>
@@ -20,9 +20,55 @@
 			@Html.LabelFor(m => m.DueAt)
 			<input type="datetime-local" asp-for="DueAt" name="DueAt" id="DueAt" />
 		</div>
+
+		<select id="tagSelect">
+			<option value="">-- select tag --</option>
+			@foreach (var tag in Model.TagSelectionOptions)
+			{
+				<option value="@tag.Id">@tag.Title</option>
+			}
+		</select>
+
+		<button type="button" onclick="addTag()">Add</button>
+
+		<div id="selectedTags"></div>
+
 		<div class="div1">
 			<input type="submit" />
 		</div>
 		<input type="hidden" asp-for="ListId" value="@Model.ListId" />
 	</form>
 </body>
+
+<script>
+	let tagIndex = 0;
+
+	function addTag() {
+		const select = document.getElementById("tagSelect");
+		const tagId = select.value;
+		const tagTitle = select.options[select.selectedIndex].text;
+
+		if (!tagId) return;
+		if (document.querySelector(`[data-tag-id="${tagId}"]`)) return;
+
+		fetch("/Tag/AddTag", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				id: tagId,
+				title: tagTitle,
+				index: tagIndex++
+			})
+		})
+		.then(r => r.text())
+		.then(html => {
+			document.getElementById("selectedTags")
+				.insertAdjacentHTML("beforeend", html);
+		});
+	}
+
+	function removeTag(tagId) {
+		const tag = document.querySelector(`[data-tag-id="${tagId}"]`);
+		if (tag) tag.remove();
+	}
+</script>

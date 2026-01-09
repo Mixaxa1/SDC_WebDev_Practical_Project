@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using WebApp.Models.TaskTag;
 
 namespace WebApp.Models.TodoTask
 {
@@ -10,9 +11,8 @@ namespace WebApp.Models.TodoTask
         public Guid ListId {get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-
-        [BindProperty, DisplayFormat(DataFormatString = "{0:yyyy-MM-ddTHH:mm}", ApplyFormatInEditMode = true)]
         public DateTime? DueAt { get; set; }
         public string Status { get; set; }
+        public ICollection<TagModel> Tags { get; set; }
     }
 }

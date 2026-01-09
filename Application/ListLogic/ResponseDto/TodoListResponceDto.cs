@@ -1,4 +1,5 @@
-﻿using Application.TaskLogic.ResponceDto;
+﻿using Application.TagLogic.ResponceDto;
+using Application.TaskLogic.ResponceDto;
 
 namespace Application.ListLogic.ResponseDto
 {
@@ -7,7 +8,7 @@ namespace Application.ListLogic.ResponseDto
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public List<TodoTaskResponceDto> Tasks { get; set; }
+        public List<TodoTaskResponceDto> Tasks { get; set; } = new List<TodoTaskResponceDto>();
     }
 }
 

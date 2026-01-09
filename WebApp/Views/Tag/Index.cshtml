@@ -1,0 +1,25 @@
+﻿@using WebApp.Models.TaskTag
+@model IEnumerable<TagModel>
+
+<body>
+	<h2>List of all tags</h2>
+
+	<div class="div1">
+		<a class="btn" asp-action="Create">Create new tag</a>
+	</div>
+	<div class="div1">
+		<table>
+			<thead>
+				<tr>
+					<th>Ttile</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var tag in Model)
+				{
+					@await Html.PartialAsync("_TagListRowPartial", tag);
+				}
+			</tbody>
+		</table>
+	</div>
+</body>

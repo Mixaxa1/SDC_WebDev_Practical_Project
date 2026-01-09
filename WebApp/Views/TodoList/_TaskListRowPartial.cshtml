@@ -21,3 +21,12 @@
 		<a asp-action="Details" asp-controller="TodoTask" asp-route-id="@Model.Id">See details</a>
 	</td>
 </tr>
+
+<tr>
+	<td colspan="3">
+		@foreach (var tag in Model.Tags)
+		{
+			<span>@tag.Title</span>
+		}
+	</td>
+</tr>

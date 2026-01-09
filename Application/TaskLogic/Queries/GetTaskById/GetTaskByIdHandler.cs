@@ -1,5 +1,8 @@
 ﻿using Application.Abstraction.Repositories;
+using Application.TagLogic.ResponceDto;
 using Application.TaskLogic.ResponceDto;
+using Domain.Entities.List;
+using Domain.Entities.Task;
 using MediatR;
 
 namespace Application.TaskLogic.Queries.GetTaskById
@@ -15,14 +18,23 @@ namespace Application.TaskLogic.Queries.GetTaskById
 
         public async Task<TodoTaskResponceDto?> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
         {
-            var task = await _unitOfWork.TodoTaskRepository.GetByIdAsync(request.id);
+            TodoTask? task;
+
+            if (request.withIncludes)
+            {
+                task = await _unitOfWork.TodoTaskRepository.GetByIdWithIncludesAsync(request.id, x => x.Tags);
+            }
+            else
+            {
+                task = await _unitOfWork.TodoTaskRepository.GetByIdWithIncludesAsync(request.id);
+            }
 
             if (task == null)
             {
                 return null;
             }
 
-            return new TodoTaskResponceDto()
+            var result = new TodoTaskResponceDto()
             {
                 Id = task.Id,
                 ListId = task.ListId,
@@ -32,6 +44,20 @@ namespace Application.TaskLogic.Queries.GetTaskById
                 DueAt = task.DueAt,
                 Status = task.Status.ToString(),
             };
+
+            if (request.withIncludes)
+            {
+                foreach(var tag in task.Tags)
+                {
+                    result.Tags.Add(new TagResponceDto()
+                    {
+                        Id = tag.Id,
+                        Title = tag.Title
+                    });
+                }
+            }
+
+            return result;
         }
     }
 }

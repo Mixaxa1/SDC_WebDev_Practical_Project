@@ -8,5 +8,5 @@ using MediatR;
 
 namespace Application.TaskLogic.Queries.GetTaskById
 {
-    public record GetTaskByIdQuery(Guid id) : IRequest<TodoTaskResponceDto?>;
+    public record GetTaskByIdQuery(Guid id, bool withIncludes = false) : IRequest<TodoTaskResponceDto?>;
 }
