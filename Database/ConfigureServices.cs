@@ -16,7 +16,8 @@ public static class ConfigureServices
         var dbOption = serviceProvider.GetRequiredService<IOptions<DbOptions>>().Value;
         var connectionString = $"Server={dbOption.Server};Database={dbOption.DbName};Trusted_Connection=True";
 
-        services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(connectionString));
+        services.AddDbContext<AppDbContext>(opt => 
+            opt.UseSqlServer(connectionString));
 
         services.AddScoped <ITodoListRepository, TodoListRepository>();
         services.AddScoped<ITodoTaskRepository, TodoTaskRepository>();

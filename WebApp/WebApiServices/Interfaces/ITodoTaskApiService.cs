@@ -13,6 +13,8 @@ namespace WebApp.WebApiServices.Interfaces
 
         public Task<TodoTaskModel> GetByIdAsync(Guid id, bool withIncludes = false);
 
+        public Task<List<TodoTaskModel>> GetBySearch(SearchModel model);
+
         public Task<TodoTaskModel> UpdateAsync(CreateTodoTaskModel model);
     }
 }

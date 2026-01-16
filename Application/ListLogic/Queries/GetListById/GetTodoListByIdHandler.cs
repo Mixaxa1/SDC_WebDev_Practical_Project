@@ -42,9 +42,9 @@ namespace Application.ListLogic.Queries.GetListById
                 Tasks = new List<TodoTaskResponceDto>()
             };
 
-            TodoTaskResponceDto resultTask;
             if (request.withIncludes)
             {
+                TodoTaskResponceDto resultTask;
                 foreach (var task in list.Tasks)
                 {
                     resultTask = new TodoTaskResponceDto()

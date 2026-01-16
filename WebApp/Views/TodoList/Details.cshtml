@@ -11,13 +11,6 @@
 
     <h1>@Model.Title</h1>
 
-    @* <div class="div1">
-        @foreach (var tag in Model.Tags)
-        {
-            <span>@tag.Title</span>
-        }
-    </div> *@
-
     <div class="div1">
         <ul>
             <li class="liHor">
@@ -37,25 +30,6 @@
     <div class="div1">
         <a class="btn" asp-controller="TodoTask" asp-action="Create" asp-route-id="@Model.Id" method="post">Create task</a>
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Ttile</th>
-                <th>Descriprion</th>
-                <th>Created at</th>
-                <th>Due at</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Tasks != null)
-            {
-                @foreach (var task in Model.Tasks)
-                {
-                    @await Html.PartialAsync("_TaskListRowPartial", task);
-                }
-            }
-        </tbody>
-    </table>
+    @await Html.PartialAsync("_TaskListPartial", Model.Tasks)
 
 </body>

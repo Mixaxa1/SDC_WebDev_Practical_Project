@@ -1,0 +1,24 @@
+﻿@using WebApp.Models.TodoTask
+@model IEnumerable<TodoTaskModel>
+
+<table>
+    <thead>
+        <tr>
+            <th>Ttile</th>
+            <th>Descriprion</th>
+            <th>Created at</th>
+            <th>Due at</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var task in Model)
+            {
+                @await Html.PartialAsync("_TaskListRowPartial", task)
+                ;
+            }
+        }
+    </tbody>
+</table>

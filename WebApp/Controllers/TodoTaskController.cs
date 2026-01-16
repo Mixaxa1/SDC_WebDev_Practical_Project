@@ -141,14 +141,53 @@ namespace WebApp.Controllers
             return View(listView);
         }
 
-        // POST: TodoTaskController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirm(Guid id, Guid listId)
         {
             await _todoTaskApiService.DeleteAsync(id);
 
             return RedirectToAction("Details", "TodoList", new { id = listId });
+        }
+
+        public async Task<IActionResult> Search(SearchViewModel vm)
+        {
+            if (vm.Tags.Count == 0)
+            {
+                vm.Tags = await _taskTagApiService.GetAllAsync();
+            }
+            else
+            {
+                var search = new SearchModel()
+                {
+                    TagId = vm.TagId,
+                    Title = vm.Title,
+                    CreatedAfter = vm.CreatedAfter,
+                    CreatedBefore = vm.CreatedBefore,
+                    DueAfter = vm.DueAfter,
+                    DueBefore = vm.DueBefore,
+                };
+
+                vm.SearchResults = await _todoTaskApiService.GetBySearch(search);
+            }
+
+                return View(vm);
+        }
+
+        public async Task<IActionResult> SearchTasks(SearchViewModel vm)
+        {
+            var search = new SearchModel()
+            {
+                TagId = vm.TagId,
+                Title = vm.Title,
+                CreatedAfter = vm.CreatedAfter,
+                CreatedBefore = vm.CreatedBefore,
+                DueAfter = vm.DueAfter,
+                DueBefore = vm.DueBefore,
+            };
+
+            vm.SearchResults = await _todoTaskApiService.GetBySearch(search);
+
+            return View("Search", vm);
         }
     }
 }

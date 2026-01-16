@@ -1,3 +1,5 @@
+using Domain.Entities;
+using System.Linq.Expressions;
 using Domain.Entities.List;
 
 namespace Application.Abstraction.Repositories;
