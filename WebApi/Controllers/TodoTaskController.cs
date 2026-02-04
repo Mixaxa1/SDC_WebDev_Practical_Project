@@ -2,6 +2,7 @@
 using Application.TaskLogic.Commands.CreateTask;
 using Application.TaskLogic.Commands.DeleteTask;
 using Application.TaskLogic.Commands.UpdateTask;
+using Application.TaskLogic.Queries.GetBySearch;
 using Application.TaskLogic.Queries.GetTaskById;
 using Application.TaskLogic.RequestDto;
 using MediatR;
@@ -43,6 +44,14 @@ public class TodoTaskController : TodoController
         }
 
         return Ok(task);
+    }
+
+    [HttpGet("Search/")]
+    public async Task<IActionResult> GetBySearch([FromQuery] GetTodoTasksBySearchDto dto)
+    {
+        var tasks = await Mediator.Send(new GetTasksBySearchQuery(dto));
+
+        return Ok(tasks);
     }
 
     [HttpPut]

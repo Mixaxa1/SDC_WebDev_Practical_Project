@@ -36,9 +36,9 @@ public class Repository<TEntity>(AppDbContext dbContext) : IRepository<TEntity>
         dbSet.Remove(entity);
     }
 
-    public Task<List<TEntity>> GetAllByExpressionAsync(Expression<Func<TEntity, bool>> expression)
+    public async Task<List<TEntity>> GetAllByExpressionAsync(Expression<Func<TEntity, bool>> expression)
     {
-        return dbSet.Where(expression).ToListAsync();
+        return await dbSet.Where(expression).ToListAsync();
     }
 
     public async Task<TEntity?> GetByIdWithIncludesAsync(Guid id, params Expression<Func<TEntity, object>>[] includes)

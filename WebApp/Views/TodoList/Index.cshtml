@@ -27,8 +27,7 @@
 			<tbody>
 				@foreach (var list in Model)
 				{
-					@await Html.PartialAsync("_ListRowPartial", list)
-					;
+					@await Html.PartialAsync("_ListRowPartial", list);
 				}
 			</tbody>
 		</table>

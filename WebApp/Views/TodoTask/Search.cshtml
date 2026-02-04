@@ -1,0 +1,53 @@
+﻿@using WebApp.ViewModels
+@model SearchViewModel
+
+<head>
+	<h2>Search for specific tasks that you have acces to</h2>
+</head>
+
+<div class="div1">
+	<form asp-action="Search" asp-controller="TodoTask" method="get">
+		<div class="div1">
+			@Html.LabelFor(m => m.Title)
+			@Html.TextBoxFor(m => m.Title)
+		</div>
+		<div class="div1">
+			@Html.LabelFor(m => m.CreatedAfter)
+			<input type="datetime-local" asp-for="CreatedAfter" name="CreatedAfter" id="CreatedAfter" />
+		</div>
+		<div class="div1">
+			@Html.LabelFor(m => m.CreatedBefore)
+			<input type="datetime-local" asp-for="CreatedBefore" name="CreatedBefore" id="CreatedBefore" />
+		</div>
+		<div class="div1">
+			@Html.LabelFor(m => m.DueAfter)
+			<input type="datetime-local" asp-for="DueAfter" name="DueAfter" id="DueAfter" />
+		</div>
+		<div class="div1">
+			@Html.LabelFor(m => m.DueBefore)
+			<input type="datetime-local" asp-for="DueBefore" name="DueBefore" id="DueBefore" />
+		</div>
+		<div class="div1">
+			@Html.LabelFor(m => m.Tags)
+			<div class="form-element">
+				@Html.DropDownListFor(m => m.TagId,
+					new SelectList(Model.Tags, "Id", "Title"),
+					"-- select tag --",
+					new { @class = "form-control" })
+			</div>
+
+		</div>
+		<div class="div1">
+			<input type="submit" />
+		</div>
+
+		@for (int i = 0; i < Model.Tags.Count; i++)
+		{
+			@Html.HiddenFor(m => m.Tags[i].Id)
+			@Html.HiddenFor(m => m.Tags[i].Title)
+		}
+	</form>
+</div>
+<div class="div1">
+	@await Html.PartialAsync("_TaskListPartial", Model.SearchResults)
+</div>
